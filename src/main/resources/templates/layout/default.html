@@ -1,0 +1,23 @@
+<!doctype html>
+<html th:lang="|ja|"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta th:charset="|utf-8|">
+    <meta th:content="|initial-scale=1, width=device-width|"
+          th:name="|viewport|">
+    <title th:text="|vec: virtual e-commerce|"></title>
+    <link th:href="@{/css/tailwind.min.css}"
+          th:rel="|stylesheet|">
+</head>
+<body th:class="|bg-gray-50 min-h-screen text-gray-900|">
+<header th:class="|bg-yellow-500 flex h-12 items-center px-4|">
+    <h1>
+        <a th:class="|bg-gray-50 px-4 py-0.5 rounded text-yellow-500 text-xl|"
+           th:href="@{/}"
+           th:text="|vec|"></a>
+    </h1>
+</header>
+<main th:replace="~{${template}}">
+</main>
+</body>
+</html>
