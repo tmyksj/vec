@@ -2,7 +2,7 @@
       xmlns:th="http://www.thymeleaf.org">
     <div>
         <h2 th:class="|text-xl|" th:text="|注目の商品|"></h2>
-        <div th:class="|flex|">
+        <div th:class="|flex flex-wrap|">
             <a th:class="|bg-white m-2 p-4 rounded text-lg w-64|"
                th:each="product : ${productList}"
                th:href="@{/product/{id}(id=${product.id})}">
