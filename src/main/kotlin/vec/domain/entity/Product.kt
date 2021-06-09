@@ -3,6 +3,7 @@ package vec.domain.entity
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.LastModifiedDate
+import org.springframework.data.annotation.Version
 import java.time.LocalDateTime
 import java.util.*
 
@@ -15,7 +16,7 @@ data class Product(
      * ID
      */
     @field:Id
-    val id: UUID = UUID.randomUUID(),
+    val id: String = UUID.randomUUID().toString(),
 
     /**
      * 商品名
@@ -48,5 +49,11 @@ data class Product(
      */
     @field:LastModifiedDate
     val lastModifiedDate: LocalDateTime? = null,
+
+    /**
+     * バージョン
+     */
+    @field:Version
+    val version: Long? = null,
 
     )
