@@ -15,6 +15,7 @@ class WebFluxSecurityConfiguration {
         serverHttpSecurity.authorizeExchange()
             .pathMatchers("/").permitAll()
             .pathMatchers("/css/**").permitAll()
+            .pathMatchers("/product/**").permitAll()
 
         return serverHttpSecurity.build()
     }

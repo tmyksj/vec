@@ -1,0 +1,14 @@
+<main th:class="|mt-8 mx-auto w-11/12|"
+      xmlns:th="http://www.thymeleaf.org">
+    <div th:class="|flex|">
+        <div th:class="|bg-white flex-1 m-2 p-4 rounded|">
+            <h2 th:class="|text-xl|"
+                th:text="${product.name}"></h2>
+            <p th:text="${product.description}"></p>
+        </div>
+        <div th:class="|bg-white m-2 p-4 rounded text-right w-96|">
+            <p th:text="|¥ ${product.amount}|"></p>
+            <p th:text="|残り ${product.stock} 点|"></p>
+        </div>
+    </div>
+</main>
