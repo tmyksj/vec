@@ -1,0 +1,23 @@
+<main th:class="|mt-8 mx-auto w-11/12|"
+      xmlns:th="http://www.thymeleaf.org">
+    <div>
+        <h2 th:class="|text-xl|"
+            th:text="|注目の商品|"></h2>
+        <div th:class="|flex flex-wrap|">
+            <a th:class="|bg-white m-2 p-4 rounded text-lg w-64|"
+               th:each="product : ${productList}"
+               th:href="@{/product/{id}(id=${product.id})}">
+                <h3 th:class="|text-lg|"
+                    th:text="${product.name}"></h3>
+                <p th:class="|text-sm|"
+                   th:text="${product.description}"></p>
+                <div th:class="|pt-2 text-right|">
+                    <p th:class="|text-sm|"
+                       th:text="|¥ ${product.amount}|"></p>
+                    <p th:class="|text-sm|"
+                       th:text="|残り ${product.stock} 点|"></p>
+                </div>
+            </a>
+        </div>
+    </div>
+</main>
