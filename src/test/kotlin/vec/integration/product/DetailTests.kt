@@ -1,4 +1,4 @@
-package vec.integration
+package vec.integration.product
 
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -9,7 +9,7 @@ import vec.factory.ProductFactory
 import java.util.*
 
 @SpringBootTest
-class ProductTests {
+class DetailTests {
 
     @Autowired
     private lateinit var applicationContext: ApplicationContext
@@ -18,19 +18,17 @@ class ProductTests {
     private lateinit var productFactory: ProductFactory
 
     @Test
-    fun detail_responds_200() {
+    fun get_responds_200() {
         WebTestClient.bindToApplicationContext(applicationContext).build()
-            .get()
-            .uri("/product/${productFactory.save().id}")
+            .get().uri("/product/${productFactory.save().id}")
             .exchange()
             .expectStatus().isOk
     }
 
     @Test
-    fun detail_responds_404_when_product_does_not_exist() {
+    fun get_responds_404_when_product_does_not_exist() {
         WebTestClient.bindToApplicationContext(applicationContext).build()
-            .get()
-            .uri("/product/${UUID.randomUUID()}")
+            .get().uri("/product/${UUID.randomUUID()}")
             .exchange()
             .expectStatus().isNotFound
     }
