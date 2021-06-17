@@ -1,15 +1,18 @@
 package vec.presentation.controller.product
 
 import org.springframework.http.HttpStatus
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.stereotype.Controller
 import org.springframework.validation.BindingResult
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.reactive.result.view.Rendering
+import org.springframework.web.reactive.result.view.modelAttribute
 import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.server.ServerWebInputException
 import reactor.core.publisher.Mono
+import vec.domain.entity.User
 import vec.presentation.form.product.DetailForm
 import vec.useCase.query.GetProductQuery
 
@@ -20,6 +23,7 @@ class DetailController(
 
     @RequestMapping(method = [RequestMethod.GET], path = ["/product/{id}"])
     fun get(
+        @AuthenticationPrincipal principal: User?,
         @Validated detailForm: DetailForm,
         bindingResult: BindingResult,
     ): Mono<Rendering> {
@@ -35,6 +39,7 @@ class DetailController(
             )
         }.map {
             Rendering.view("layout/default")
+                .modelAttribute("principal", principal)
                 .modelAttribute("product", it.product)
                 .modelAttribute("template", "template/product/detail")
                 .status(HttpStatus.OK)

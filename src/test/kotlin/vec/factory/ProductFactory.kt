@@ -11,7 +11,7 @@ class ProductFactory {
     @Autowired
     private lateinit var productRepository: ProductRepository
 
-    fun save(
+    fun create(
         name: String = "name",
         description: String = "description",
         amount: Long = 1000,
