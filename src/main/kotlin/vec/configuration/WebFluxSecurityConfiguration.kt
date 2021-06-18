@@ -24,6 +24,7 @@ class WebFluxSecurityConfiguration {
             .pathMatchers("/css/**").permitAll()
             .pathMatchers("/product/**").permitAll()
             .pathMatchers("/sign-in/**").permitAll()
+            .pathMatchers("/sign-up/**").permitAll()
             .anyExchange().denyAll()
         serverHttpSecurity.formLogin()
             .loginPage("/sign-in")
