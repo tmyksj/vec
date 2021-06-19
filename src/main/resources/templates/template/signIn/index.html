@@ -1,0 +1,47 @@
+<main th:class="|mt-8 mx-auto w-11/12|"
+      xmlns:th="http://www.thymeleaf.org">
+    <div th:class="|mt-16 mx-auto w-96|">
+        <h2 th:class="|text-xl|"
+            th:text="|サインイン|"></h2>
+        <form th:action="@{/sign-in}"
+              th:class="|mt-8 mx-auto w-96|"
+              th:method="|post|">
+            <div th:class="|mt-4|">
+                <label th:class="|block mb-1 text-gray-600 text-sm|"
+                       th:for="|email|"
+                       th:text="|メールアドレス|"></label>
+                <input th:autocomplete="|email|"
+                       th:autofocus="|autofocus|"
+                       th:class="|border border-gray-300 focus:border-yellow-500 focus:outline-none h-9 px-4 py-1 rounded w-full|"
+                       th:id="|email|"
+                       th:name="|username|"
+                       th:type="|email|">
+            </div>
+            <div th:class="|mt-4|">
+                <label th:class="|block mb-1 text-gray-600 text-sm|"
+                       th:for="|password|"
+                       th:text="|パスワード|"></label>
+                <input th:autocomplete="|current-password|"
+                       th:class="|border border-gray-300 focus:border-yellow-500 focus:outline-none h-9 px-4 py-1 rounded w-full|"
+                       th:id="|password|"
+                       th:name="|password|"
+                       th:type="|password|">
+            </div>
+            <div th:class="|flex items-center justify-end mt-6|">
+                <p th:class="|flex-1 text-red-800 text-xs|"
+                   th:if="${param.error}"
+                   th:utext="|メールアドレスもしくはパスワードが<br>間違っています。|"></p>
+                <button th:class="|bg-yellow-500 focus:outline-none h-9 px-4 py-1 rounded text-gray-50|"
+                        th:text="|サインイン|"
+                        th:type="|submit|"></button>
+            </div>
+        </form>
+        <div th:class="|mt-8 text-right|">
+            <p>
+                <a th:class="|text-blue-800|"
+                   th:href="@{/sign-up}"
+                   th:text="|アカウントの作成はこちら|"></a>
+            </p>
+        </div>
+    </div>
+</main>

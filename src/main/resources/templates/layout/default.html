@@ -16,6 +16,20 @@
            th:href="@{/}"
            th:text="|vec|"></a>
     </h1>
+    <div th:class="|flex-1|"></div>
+    <div th:if="${principal == null}">
+        <a th:class="|text-gray-50|"
+           th:href="@{/sign-in}"
+           th:text="|サインイン|"></a>
+    </div>
+    <div th:if="${principal != null}">
+        <form th:action="@{/sign-out}"
+              th:method="|post|">
+            <button th:class="|focus:outline-none text-gray-50|"
+                    th:text="|サインアウト|"
+                    th:type="|submit|"></button>
+        </form>
+    </div>
 </header>
 <main th:replace="~{${template}}">
 </main>
