@@ -12,6 +12,7 @@ import org.springframework.web.reactive.result.view.modelAttribute
 import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.server.ServerWebInputException
 import reactor.core.publisher.Mono
+import reactor.kotlin.core.publisher.onErrorMap
 import vec.domain.entity.User
 import vec.presentation.form.product.DetailForm
 import vec.useCase.query.GetProductQuery
@@ -44,9 +45,9 @@ class DetailController(
                 .modelAttribute("template", "template/product/detail")
                 .status(HttpStatus.OK)
                 .build()
-        }.onErrorMap(ServerWebInputException::class.java) {
+        }.onErrorMap(ServerWebInputException::class) {
             ResponseStatusException(HttpStatus.NOT_FOUND)
-        }.onErrorMap(GetProductQuery.NotFoundException::class.java) {
+        }.onErrorMap(GetProductQuery.NotFoundException::class) {
             ResponseStatusException(HttpStatus.NOT_FOUND)
         }
     }

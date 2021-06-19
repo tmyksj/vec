@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.reactive.result.view.Rendering
 import org.springframework.web.reactive.result.view.modelAttribute
 import reactor.core.publisher.Mono
-import reactor.kotlin.core.publisher.toMono
 import vec.domain.entity.User
 
 @Controller
@@ -19,18 +18,19 @@ class IndexController {
         @AuthenticationPrincipal principal: User?,
     ): Mono<Rendering> {
         if (principal != null) {
-            return Rendering.redirectTo("/")
-                .build()
-                .toMono()
+            return Mono.fromCallable {
+                Rendering.redirectTo("/")
+                    .build()
+            }
         }
 
-        return Mono.just(
+        return Mono.fromCallable {
             Rendering.view("layout/default")
                 .modelAttribute("principal", null)
                 .modelAttribute("template", "template/signIn/index")
                 .status(HttpStatus.OK)
                 .build()
-        )
+        }
     }
 
 }

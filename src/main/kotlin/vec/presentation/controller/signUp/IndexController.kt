@@ -11,6 +11,7 @@ import org.springframework.web.reactive.result.view.Rendering
 import org.springframework.web.reactive.result.view.modelAttribute
 import org.springframework.web.server.ServerWebInputException
 import reactor.core.publisher.Mono
+import reactor.kotlin.core.publisher.onErrorResume
 import reactor.kotlin.core.publisher.toMono
 import vec.domain.entity.User
 import vec.presentation.form.signUp.IndexForm
@@ -27,18 +28,19 @@ class IndexController(
         indexForm: IndexForm,
     ): Mono<Rendering> {
         if (principal != null) {
-            return Rendering.redirectTo("/")
-                .build()
-                .toMono()
+            return Mono.fromCallable {
+                Rendering.redirectTo("/")
+                    .build()
+            }
         }
 
-        return Mono.just(
+        return Mono.fromCallable {
             Rendering.view("layout/default")
                 .modelAttribute("principal", null)
                 .modelAttribute("template", "template/signUp/index")
                 .status(HttpStatus.OK)
                 .build()
-        )
+        }
     }
 
     @RequestMapping(method = [RequestMethod.POST], path = ["/sign-up"])
@@ -48,12 +50,19 @@ class IndexController(
         bindingResult: BindingResult,
     ): Mono<Rendering> {
         if (principal != null) {
-            return Rendering.redirectTo("/")
-                .build()
-                .toMono()
+            return Mono.fromCallable {
+                Rendering.redirectTo("/")
+                    .build()
+            }
         }
 
         return Mono.defer {
+            if (indexForm.password != indexForm.passwordConfirmation) {
+                bindingResult.rejectValue(
+                    "passwordConfirmation", "vec.presentation.form.signUp.IndexForm.passwordConfirmation.mismatch"
+                )
+            }
+
             if (bindingResult.hasErrors()) {
                 throw ServerWebInputException(bindingResult.toString())
             }
@@ -69,21 +78,23 @@ class IndexController(
             Rendering.redirectTo("/sign-in")
                 .status(HttpStatus.SEE_OTHER)
                 .build()
-        }.onErrorReturn(
-            ServerWebInputException::class.java,
+        }.onErrorResume(ServerWebInputException::class) {
             Rendering.view("layout/default")
                 .modelAttribute("principal", null)
                 .modelAttribute("template", "template/signUp/index")
                 .status(HttpStatus.BAD_REQUEST)
                 .build()
-        ).onErrorReturn(
-            RegisterUserCommand.AlreadyInUseException::class.java,
+                .toMono()
+        }.onErrorResume(RegisterUserCommand.AlreadyInUseException::class) {
+            bindingResult.rejectValue("email", "vec.presentation.form.signUp.IndexForm.email.alreadyInUse")
+
             Rendering.view("layout/default")
                 .modelAttribute("principal", null)
                 .modelAttribute("template", "template/signUp/index")
                 .status(HttpStatus.BAD_REQUEST)
                 .build()
-        )
+                .toMono()
+        }
     }
 
 }

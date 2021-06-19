@@ -16,8 +16,8 @@
                        th:class="|border border-gray-300 focus:border-yellow-500 focus:outline-none h-9 px-4 py-1 rounded w-full|"
                        th:field="*{email}"
                        th:type="|email|">
-                <p th:errors="*{email}"
-                   th:if="${#fields.hasErrors('email')}"></p>
+                <p th:class="|mt-1 text-red-800 text-xs|"
+                   th:errors="*{email}"></p>
             </div>
             <div th:class="|mt-4|">
                 <label th:class="|block mb-1 text-gray-600 text-sm|"
@@ -27,8 +27,8 @@
                        th:class="|border border-gray-300 focus:border-yellow-500 focus:outline-none h-9 px-4 py-1 rounded w-full|"
                        th:field="*{password}"
                        th:type="|password|">
-                <p th:errors="*{password}"
-                   th:if="${#fields.hasErrors('password')}"></p>
+                <p th:class="|mt-1 text-red-800 text-xs|"
+                   th:errors="*{password}"></p>
             </div>
             <div th:class="|mt-4|">
                 <label th:class="|block mb-1 text-gray-600 text-sm|"
@@ -38,8 +38,8 @@
                        th:class="|border border-gray-300 focus:border-yellow-500 focus:outline-none h-9 px-4 py-1 rounded w-full|"
                        th:field="*{passwordConfirmation}"
                        th:type="|password|">
-                <p th:errors="*{passwordConfirmation}"
-                   th:if="${#fields.hasErrors('passwordConfirmation')}"></p>
+                <p th:class="|mt-1 text-red-800 text-xs|"
+                   th:errors="*{passwordConfirmation}"></p>
             </div>
             <div th:class="|mt-6 text-right|">
                 <button th:class="|bg-yellow-500 focus:outline-none h-9 px-4 py-1 rounded text-gray-50|"

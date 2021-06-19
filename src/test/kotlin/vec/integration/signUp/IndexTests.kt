@@ -106,4 +106,20 @@ class IndexTests {
             .expectStatus().isBadRequest
     }
 
+    @Test
+    fun post_responds_400_when_password_does_not_match() {
+        WebTestClient.bindToApplicationContext(applicationContext)
+            .applyKt(SecurityMockServerConfigurers.springSecurity())
+            .build()
+            .mutateWith(SecurityMockServerConfigurers.csrf())
+            .post().uri("/sign-up")
+            .body(
+                BodyInserters
+                    .fromFormData("email", "${UUID.randomUUID()}@example.com")
+                    .with("password", "passwordRaw")
+                    .with("passwordConfirmation", "passwordConfirmation")
+            ).exchange()
+            .expectStatus().isBadRequest
+    }
+
 }
