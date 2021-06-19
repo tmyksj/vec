@@ -23,7 +23,8 @@ class UserFactory {
         isAccountLocked: Boolean = false,
         isCredentialsExpired: Boolean = false,
         isEnabled: Boolean = true,
-        hasAuthorityGeneral: Boolean = true,
+        hasAuthorityAdmin: Boolean = false,
+        hasAuthorityGeneral: Boolean = false,
     ): User {
         return checkNotNull(
             userRepository.save(
@@ -34,6 +35,7 @@ class UserFactory {
                     isAccountLocked = isAccountLocked,
                     isCredentialsExpired = isCredentialsExpired,
                     isEnabled = isEnabled,
+                    hasAuthorityAdmin = hasAuthorityAdmin,
                     hasAuthorityGeneral = hasAuthorityGeneral,
                 )
             ).block()

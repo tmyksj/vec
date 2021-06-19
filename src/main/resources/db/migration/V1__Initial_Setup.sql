@@ -21,6 +21,7 @@ create table user
     is_account_locked      boolean      not null,
     is_credentials_expired boolean      not null,
     is_enabled             boolean      not null,
+    has_authority_admin    boolean      not null,
     has_authority_general  boolean      not null,
     created_date           timestamp(6) not null,
     last_modified_date     timestamp(6) not null,

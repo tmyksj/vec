@@ -31,6 +31,7 @@ class RegisterUserCommandImpl(
                         isAccountLocked = false,
                         isCredentialsExpired = false,
                         isEnabled = true,
+                        hasAuthorityAdmin = request.hasAuthorityAdmin,
                         hasAuthorityGeneral = request.hasAuthorityGeneral,
                     )
                 )
