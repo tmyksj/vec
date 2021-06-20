@@ -22,9 +22,14 @@ interface RegisterUserCommand {
         val passwordRaw: String,
 
         /**
+         * 管理者ユーザ権限を持つかどうか
+         */
+        val hasAuthorityAdmin: Boolean = false,
+
+        /**
          * 一般ユーザ権限を持つかどうか
          */
-        val hasAuthorityGeneral: Boolean,
+        val hasAuthorityGeneral: Boolean = false,
 
         )
 

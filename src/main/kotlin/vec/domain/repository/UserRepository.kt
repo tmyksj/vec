@@ -10,6 +10,8 @@ import vec.domain.entity.User
 @Transactional
 interface UserRepository : ReactiveCrudRepository<User, String> {
 
+    fun existsByHasAuthorityAdmin(hasAuthorityAdmin: Boolean): Mono<Boolean>
+
     fun findByEmail(email: String): Mono<User>
 
 }

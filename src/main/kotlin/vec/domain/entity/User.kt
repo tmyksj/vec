@@ -52,6 +52,11 @@ data class User(
     private val isEnabled: Boolean,
 
     /**
+     * 管理者ユーザ権限を持つかどうか
+     */
+    val hasAuthorityAdmin: Boolean,
+
+    /**
      * 一般ユーザ権限を持つかどうか
      */
     val hasAuthorityGeneral: Boolean,
@@ -78,6 +83,10 @@ data class User(
 
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
         return mutableListOf<GrantedAuthority>().apply {
+            if (hasAuthorityAdmin) {
+                add(SimpleGrantedAuthority("ROLE_ADMIN"))
+            }
+
             if (hasAuthorityGeneral) {
                 add(SimpleGrantedAuthority("ROLE_GENERAL"))
             }
