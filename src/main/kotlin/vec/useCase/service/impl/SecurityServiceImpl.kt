@@ -10,11 +10,13 @@ import vec.useCase.service.SecurityService
 @Component
 @Transactional
 class SecurityServiceImpl(
-    val userRepository: UserRepository
+    private val userRepository: UserRepository
 ) : SecurityService {
 
     override fun findByUsername(username: String): Mono<UserDetails> {
-        return userRepository.findByEmail(username).map { it }
+        return Mono.defer {
+            userRepository.findByEmail(username)
+        }
     }
 
 }

@@ -16,14 +16,15 @@ class GetProductQueryImpl(
     override fun perform(
         request: GetProductQuery.Request,
     ): Mono<GetProductQuery.Response> {
-        return productRepository.findById(request.id)
-            .map {
-                GetProductQuery.Response(
-                    product = it,
-                )
-            }.switchIfEmpty {
-                throw GetProductQuery.NotFoundException()
-            }
+        return Mono.defer {
+            productRepository.findById(request.id)
+        }.switchIfEmpty {
+            throw GetProductQuery.NotFoundException()
+        }.map {
+            GetProductQuery.Response(
+                product = it,
+            )
+        }
     }
 
 }
