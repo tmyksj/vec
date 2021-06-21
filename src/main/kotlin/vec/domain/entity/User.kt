@@ -57,9 +57,9 @@ data class User(
     val hasAuthorityAdmin: Boolean,
 
     /**
-     * 一般ユーザ権限を持つかどうか
+     * 消費者ユーザ権限を持つかどうか
      */
-    val hasAuthorityGeneral: Boolean,
+    val hasAuthorityConsumer: Boolean,
 
     /**
      * 作成日時
@@ -87,8 +87,8 @@ data class User(
                 add(SimpleGrantedAuthority("ROLE_ADMIN"))
             }
 
-            if (hasAuthorityGeneral) {
-                add(SimpleGrantedAuthority("ROLE_GENERAL"))
+            if (hasAuthorityConsumer) {
+                add(SimpleGrantedAuthority("ROLE_CONSUMER"))
             }
         }
     }

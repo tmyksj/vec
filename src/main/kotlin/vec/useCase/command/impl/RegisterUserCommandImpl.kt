@@ -21,7 +21,7 @@ class RegisterUserCommandImpl(
                 email = request.email,
                 passwordRaw = request.passwordRaw,
                 hasAuthorityAdmin = request.hasAuthorityAdmin,
-                hasAuthorityGeneral = request.hasAuthorityGeneral,
+                hasAuthorityConsumer = request.hasAuthorityConsumer,
             )
         }.switchIfEmpty {
             throw RegisterUserCommand.AlreadyInUseException()

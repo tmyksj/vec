@@ -34,7 +34,7 @@ class AccountServiceImpl(
         email: String,
         passwordRaw: String,
         hasAuthorityAdmin: Boolean,
-        hasAuthorityGeneral: Boolean
+        hasAuthorityConsumer: Boolean
     ): Mono<User> {
         return Mono.fromCallable {
             User(
@@ -45,7 +45,7 @@ class AccountServiceImpl(
                 isCredentialsExpired = false,
                 isEnabled = true,
                 hasAuthorityAdmin = hasAuthorityAdmin,
-                hasAuthorityGeneral = hasAuthorityGeneral,
+                hasAuthorityConsumer = hasAuthorityConsumer,
             )
         }.flatMap {
             isValid(it)

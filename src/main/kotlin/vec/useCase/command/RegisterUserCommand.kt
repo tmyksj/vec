@@ -27,9 +27,9 @@ interface RegisterUserCommand {
         val hasAuthorityAdmin: Boolean = false,
 
         /**
-         * 一般ユーザ権限を持つかどうか
+         * 消費者ユーザ権限を持つかどうか
          */
-        val hasAuthorityGeneral: Boolean = false,
+        val hasAuthorityConsumer: Boolean = false,
 
         )
 

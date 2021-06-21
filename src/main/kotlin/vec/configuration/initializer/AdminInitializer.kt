@@ -35,7 +35,7 @@ class AdminInitializer(
                             isCredentialsExpired = false,
                             isEnabled = true,
                             hasAuthorityAdmin = true,
-                            hasAuthorityGeneral = false,
+                            hasAuthorityConsumer = false,
                         )
                     ),
                     Mono.just(passwordRaw),

@@ -71,7 +71,7 @@ class IndexController(
                 RegisterUserCommand.Request(
                     email = checkNotNull(indexForm.email),
                     passwordRaw = checkNotNull(indexForm.password),
-                    hasAuthorityGeneral = true,
+                    hasAuthorityConsumer = true,
                 )
             )
         }.map {
