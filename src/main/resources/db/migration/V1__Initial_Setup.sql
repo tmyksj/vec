@@ -30,3 +30,31 @@ create table product
     primary key (id)
 ) engine = InnoDB
   default charset utf8mb4;
+
+create table cart
+(
+    id                 varchar(36)  not null,
+    user_id            varchar(36)  not null,
+    created_date       timestamp(6) not null,
+    last_modified_date timestamp(6) not null,
+    version            bigint       not null,
+    primary key (id),
+    unique key (user_id),
+    foreign key (user_id) references user (id) on delete cascade on update cascade
+) engine = InnoDB
+  default charset utf8mb4;
+
+create table cart_product
+(
+    id                 varchar(36)  not null,
+    cart_id            varchar(36)  not null,
+    product_id         varchar(36)  not null,
+    added_date         timestamp(6) not null,
+    created_date       timestamp(6) not null,
+    last_modified_date timestamp(6) not null,
+    version            bigint       not null,
+    primary key (id),
+    foreign key (cart_id) references cart (id) on delete cascade on update cascade,
+    foreign key (product_id) references product (id) on delete cascade on update cascade
+) engine = InnoDB
+  default charset utf8mb4;
