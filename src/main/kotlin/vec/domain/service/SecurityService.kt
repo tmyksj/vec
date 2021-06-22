@@ -11,14 +11,14 @@ interface SecurityService {
     /**
      * 管理者ユーザ権限を持つことを要求します。
      * @param user ユーザ
-     * @return ユーザまたは error (SecurityException)
+     * @return ユーザもしくは error (SecurityException)
      */
     fun requireAuthorityAdmin(user: User): Mono<User>
 
     /**
      * 消費者ユーザ権限を持つことを要求します。
      * @param user ユーザ
-     * @return ユーザまたは error (SecurityException)
+     * @return ユーザもしくは error (SecurityException)
      */
     fun requireAuthorityConsumer(user: User): Mono<User>
 
