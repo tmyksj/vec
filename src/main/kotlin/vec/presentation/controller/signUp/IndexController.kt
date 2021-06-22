@@ -69,6 +69,7 @@ class IndexController(
 
             registerUserCommand.perform(
                 RegisterUserCommand.Request(
+                    principal = principal,
                     email = checkNotNull(indexForm.email),
                     passwordRaw = checkNotNull(indexForm.password),
                     hasAuthorityConsumer = true,
