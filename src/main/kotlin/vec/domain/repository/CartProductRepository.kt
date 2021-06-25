@@ -10,6 +10,6 @@ import vec.domain.entity.CartProduct
 @Transactional
 interface CartProductRepository : ReactiveCrudRepository<CartProduct, String> {
 
-    fun findByCartId(cartId: String): Flux<CartProduct>
+    fun findAllByCartId(cartId: String): Flux<CartProduct>
 
 }

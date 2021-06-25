@@ -8,7 +8,6 @@ import vec.domain.entity.Cart
 import vec.domain.entity.CartProduct
 import vec.domain.entity.Product
 import vec.domain.entity.User
-import vec.domain.exception.EntityNotFoundException
 import vec.domain.repository.CartProductRepository
 import vec.domain.repository.CartRepository
 import vec.domain.repository.ProductRepository
@@ -25,21 +24,20 @@ class ECommerceCartServiceImpl(
     private val securityService: SecurityService,
 ) : ECommerceCartService {
 
-    override fun addProduct(user: User, product: Product): Mono<CartProduct> {
+    override fun add(user: User, product: Product): Mono<CartProduct> {
         return Mono.defer {
             securityService.requireAuthorityConsumer(user)
         }.flatMap {
             productRepository.findById(product.id)
-        }.switchIfEmpty {
-            throw EntityNotFoundException()
         }.flatMap {
             cartRepository.findByUserId(user.id)
-        }.switchIfEmpty {
-            cartRepository.save(
-                Cart(
-                    userId = user.id,
-                )
-            )
+                .switchIfEmpty {
+                    cartRepository.save(
+                        Cart(
+                            userId = user.id,
+                        )
+                    )
+                }
         }.flatMap {
             cartProductRepository.save(
                 CartProduct(
