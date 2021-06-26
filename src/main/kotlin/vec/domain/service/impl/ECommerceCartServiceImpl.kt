@@ -26,7 +26,7 @@ class ECommerceCartServiceImpl(
 
     override fun add(user: User, product: Product): Mono<CartProduct> {
         return Mono.defer {
-            securityService.requireAuthorityConsumer(user)
+            securityService.requireRoleConsumer(user)
         }.flatMap {
             productRepository.findById(product.id)
         }.flatMap {

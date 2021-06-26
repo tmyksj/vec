@@ -19,15 +19,15 @@ interface AccountService {
      * ユーザを登録します。
      * @param email メールアドレス
      * @param passwordRaw パスワード
-     * @param hasAuthorityAdmin 管理者ユーザ権限を持つかどうか
-     * @param hasAuthorityConsumer 消費者ユーザ権限を持つかどうか
+     * @param hasRoleAdmin 管理者ユーザの役割を持つかどうか
+     * @param hasRoleConsumer 消費者ユーザの役割を持つかどうか
      * @return 登録されたユーザもしくは empty
      */
     fun register(
         email: String,
         passwordRaw: String,
-        hasAuthorityAdmin: Boolean = false,
-        hasAuthorityConsumer: Boolean = false,
+        hasRoleAdmin: Boolean = false,
+        hasRoleConsumer: Boolean = false,
     ): Mono<User>
 
 }

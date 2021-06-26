@@ -33,8 +33,8 @@ class AccountServiceImpl(
     override fun register(
         email: String,
         passwordRaw: String,
-        hasAuthorityAdmin: Boolean,
-        hasAuthorityConsumer: Boolean
+        hasRoleAdmin: Boolean,
+        hasRoleConsumer: Boolean
     ): Mono<User> {
         return Mono.fromCallable {
             User(
@@ -44,8 +44,8 @@ class AccountServiceImpl(
                 isAccountLocked = false,
                 isCredentialsExpired = false,
                 isEnabled = true,
-                hasAuthorityAdmin = hasAuthorityAdmin,
-                hasAuthorityConsumer = hasAuthorityConsumer,
+                hasRoleAdmin = hasRoleAdmin,
+                hasRoleConsumer = hasRoleConsumer,
             )
         }.flatMap {
             isValid(it)

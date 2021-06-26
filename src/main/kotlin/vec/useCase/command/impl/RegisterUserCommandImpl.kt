@@ -20,8 +20,8 @@ class RegisterUserCommandImpl(
             accountService.register(
                 email = request.email,
                 passwordRaw = request.passwordRaw,
-                hasAuthorityAdmin = request.hasAuthorityAdmin,
-                hasAuthorityConsumer = request.hasAuthorityConsumer,
+                hasRoleAdmin = request.hasRoleAdmin,
+                hasRoleConsumer = request.hasRoleConsumer,
             )
         }.switchIfEmpty {
             throw RegisterUserCommand.AlreadyInUseException()

@@ -11,9 +11,9 @@ import vec.domain.service.SecurityService
 @Transactional
 class SecurityServiceImpl : SecurityService {
 
-    override fun requireAuthorityAdmin(user: User): Mono<User> {
+    override fun requireRoleAdmin(user: User): Mono<User> {
         return Mono.fromCallable {
-            if (user.hasAuthorityAdmin) {
+            if (user.hasRoleAdmin) {
                 user
             } else {
                 throw SecurityException()
@@ -21,9 +21,9 @@ class SecurityServiceImpl : SecurityService {
         }
     }
 
-    override fun requireAuthorityConsumer(user: User): Mono<User> {
+    override fun requireRoleConsumer(user: User): Mono<User> {
         return Mono.fromCallable {
-            if (user.hasAuthorityConsumer) {
+            if (user.hasRoleConsumer) {
                 user
             } else {
                 throw SecurityException()

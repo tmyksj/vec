@@ -20,7 +20,7 @@ class AdminInitializer(
 
     @PostConstruct
     fun initialize() {
-        userRepository.existsByHasAuthorityAdmin(true)
+        userRepository.existsByHasRoleAdmin(true)
             .filter { !it }
             .flatMap {
                 val passwordRaw: String = UUID.randomUUID().toString()
@@ -34,8 +34,8 @@ class AdminInitializer(
                             isAccountLocked = false,
                             isCredentialsExpired = false,
                             isEnabled = true,
-                            hasAuthorityAdmin = true,
-                            hasAuthorityConsumer = false,
+                            hasRoleAdmin = true,
+                            hasRoleConsumer = false,
                         )
                     ),
                     Mono.just(passwordRaw),

@@ -9,17 +9,17 @@ import vec.domain.entity.User
 interface SecurityService {
 
     /**
-     * 管理者ユーザ権限を持つことを要求します。
+     * 管理者ユーザの役割を持つことを要求します。
      * @param user ユーザ
      * @return ユーザもしくは error (SecurityException)
      */
-    fun requireAuthorityAdmin(user: User): Mono<User>
+    fun requireRoleAdmin(user: User): Mono<User>
 
     /**
-     * 消費者ユーザ権限を持つことを要求します。
+     * 消費者ユーザの役割を持つことを要求します。
      * @param user ユーザ
      * @return ユーザもしくは error (SecurityException)
      */
-    fun requireAuthorityConsumer(user: User): Mono<User>
+    fun requireRoleConsumer(user: User): Mono<User>
 
 }

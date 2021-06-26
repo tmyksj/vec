@@ -28,14 +28,14 @@ interface RegisterUserCommand {
         val passwordRaw: String,
 
         /**
-         * 管理者ユーザ権限を持つかどうか
+         * 管理者ユーザの役割を持つかどうか
          */
-        val hasAuthorityAdmin: Boolean = false,
+        val hasRoleAdmin: Boolean = false,
 
         /**
-         * 消費者ユーザ権限を持つかどうか
+         * 消費者ユーザの役割を持つかどうか
          */
-        val hasAuthorityConsumer: Boolean = false,
+        val hasRoleConsumer: Boolean = false,
 
         )
 

@@ -72,7 +72,7 @@ class IndexController(
                     principal = principal,
                     email = checkNotNull(indexForm.email),
                     passwordRaw = checkNotNull(indexForm.password),
-                    hasAuthorityConsumer = true,
+                    hasRoleConsumer = true,
                 )
             )
         }.map {
