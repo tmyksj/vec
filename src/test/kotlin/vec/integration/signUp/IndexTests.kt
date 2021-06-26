@@ -21,7 +21,7 @@ class IndexTests {
     private lateinit var userFactory: UserFactory
 
     @Test
-    fun get_responds_200() {
+    fun anonymous__get_responds_200() {
         WebTestClient.bindToApplicationContext(applicationContext)
             .applyKt(SecurityMockServerConfigurers.springSecurity())
             .build()
@@ -31,18 +31,7 @@ class IndexTests {
     }
 
     @Test
-    fun get_responds_303_when_user_signed_in() {
-        WebTestClient.bindToApplicationContext(applicationContext)
-            .applyKt(SecurityMockServerConfigurers.springSecurity())
-            .build()
-            .mutateWith(SecurityMockServerConfigurers.mockUser(userFactory.create()))
-            .get().uri("/sign-up")
-            .exchange()
-            .expectStatus().isSeeOther
-    }
-
-    @Test
-    fun post_responds_303() {
+    fun anonymous__post_responds_303() {
         WebTestClient.bindToApplicationContext(applicationContext)
             .applyKt(SecurityMockServerConfigurers.springSecurity())
             .build()
@@ -58,24 +47,7 @@ class IndexTests {
     }
 
     @Test
-    fun post_responds_303_when_user_signed_in() {
-        WebTestClient.bindToApplicationContext(applicationContext)
-            .applyKt(SecurityMockServerConfigurers.springSecurity())
-            .build()
-            .mutateWith(SecurityMockServerConfigurers.csrf())
-            .mutateWith(SecurityMockServerConfigurers.mockUser(userFactory.create()))
-            .post().uri("/sign-up")
-            .body(
-                BodyInserters
-                    .fromFormData("email", "${UUID.randomUUID()}@example.com")
-                    .with("password", "passwordRaw")
-                    .with("passwordConfirmation", "passwordRaw")
-            ).exchange()
-            .expectStatus().isSeeOther
-    }
-
-    @Test
-    fun post_responds_400_when_email_is_already_in_use() {
+    fun anonymous__post_responds_400_when_email_is_already_in_use() {
         WebTestClient.bindToApplicationContext(applicationContext)
             .applyKt(SecurityMockServerConfigurers.springSecurity())
             .build()
@@ -91,7 +63,7 @@ class IndexTests {
     }
 
     @Test
-    fun post_responds_400_when_params_are_invalid() {
+    fun anonymous__post_responds_400_when_params_are_invalid() {
         WebTestClient.bindToApplicationContext(applicationContext)
             .applyKt(SecurityMockServerConfigurers.springSecurity())
             .build()
@@ -107,7 +79,7 @@ class IndexTests {
     }
 
     @Test
-    fun post_responds_400_when_password_does_not_match() {
+    fun anonymous__post_responds_400_when_password_does_not_match() {
         WebTestClient.bindToApplicationContext(applicationContext)
             .applyKt(SecurityMockServerConfigurers.springSecurity())
             .build()
@@ -120,6 +92,62 @@ class IndexTests {
                     .with("passwordConfirmation", "passwordConfirmation")
             ).exchange()
             .expectStatus().isBadRequest
+    }
+
+    @Test
+    fun role_admin__get_responds_303() {
+        WebTestClient.bindToApplicationContext(applicationContext)
+            .applyKt(SecurityMockServerConfigurers.springSecurity())
+            .build()
+            .mutateWith(SecurityMockServerConfigurers.mockUser(userFactory.create(hasRoleAdmin = true)))
+            .get().uri("/sign-up")
+            .exchange()
+            .expectStatus().isSeeOther
+    }
+
+    @Test
+    fun role_admin__post_responds_303() {
+        WebTestClient.bindToApplicationContext(applicationContext)
+            .applyKt(SecurityMockServerConfigurers.springSecurity())
+            .build()
+            .mutateWith(SecurityMockServerConfigurers.csrf())
+            .mutateWith(SecurityMockServerConfigurers.mockUser(userFactory.create(hasRoleAdmin = true)))
+            .post().uri("/sign-up")
+            .body(
+                BodyInserters
+                    .fromFormData("email", "${UUID.randomUUID()}@example.com")
+                    .with("password", "passwordRaw")
+                    .with("passwordConfirmation", "passwordRaw")
+            ).exchange()
+            .expectStatus().isSeeOther
+    }
+
+    @Test
+    fun role_consumer__get_responds_303() {
+        WebTestClient.bindToApplicationContext(applicationContext)
+            .applyKt(SecurityMockServerConfigurers.springSecurity())
+            .build()
+            .mutateWith(SecurityMockServerConfigurers.mockUser(userFactory.create(hasRoleConsumer = true)))
+            .get().uri("/sign-up")
+            .exchange()
+            .expectStatus().isSeeOther
+    }
+
+    @Test
+    fun role_consumer__post_responds_303() {
+        WebTestClient.bindToApplicationContext(applicationContext)
+            .applyKt(SecurityMockServerConfigurers.springSecurity())
+            .build()
+            .mutateWith(SecurityMockServerConfigurers.csrf())
+            .mutateWith(SecurityMockServerConfigurers.mockUser(userFactory.create(hasRoleConsumer = true)))
+            .post().uri("/sign-up")
+            .body(
+                BodyInserters
+                    .fromFormData("email", "${UUID.randomUUID()}@example.com")
+                    .with("password", "passwordRaw")
+                    .with("passwordConfirmation", "passwordRaw")
+            ).exchange()
+            .expectStatus().isSeeOther
     }
 
 }

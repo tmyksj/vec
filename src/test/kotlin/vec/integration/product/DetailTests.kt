@@ -8,6 +8,7 @@ import org.springframework.security.test.web.reactive.server.SecurityMockServerC
 import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.test.web.reactive.server.applyKt
 import vec.factory.ProductFactory
+import vec.factory.UserFactory
 import java.util.*
 
 @SpringBootTest
@@ -19,8 +20,11 @@ class DetailTests {
     @Autowired
     private lateinit var productFactory: ProductFactory
 
+    @Autowired
+    private lateinit var userFactory: UserFactory
+
     @Test
-    fun get_responds_200() {
+    fun anonymous__get_responds_200() {
         WebTestClient.bindToApplicationContext(applicationContext)
             .applyKt(SecurityMockServerConfigurers.springSecurity())
             .build()
@@ -30,10 +34,54 @@ class DetailTests {
     }
 
     @Test
-    fun get_responds_404_when_product_does_not_exist() {
+    fun anonymous__get_responds_404_when_product_does_not_exist() {
         WebTestClient.bindToApplicationContext(applicationContext)
             .applyKt(SecurityMockServerConfigurers.springSecurity())
             .build()
+            .get().uri("/product/${UUID.randomUUID()}")
+            .exchange()
+            .expectStatus().isNotFound
+    }
+
+    @Test
+    fun role_admin__get_responds_200() {
+        WebTestClient.bindToApplicationContext(applicationContext)
+            .applyKt(SecurityMockServerConfigurers.springSecurity())
+            .build()
+            .mutateWith(SecurityMockServerConfigurers.mockUser(userFactory.create(hasRoleAdmin = true)))
+            .get().uri("/product/${productFactory.create().id}")
+            .exchange()
+            .expectStatus().isOk
+    }
+
+    @Test
+    fun role_admin__get_responds_404_when_product_does_not_exist() {
+        WebTestClient.bindToApplicationContext(applicationContext)
+            .applyKt(SecurityMockServerConfigurers.springSecurity())
+            .build()
+            .mutateWith(SecurityMockServerConfigurers.mockUser(userFactory.create(hasRoleAdmin = true)))
+            .get().uri("/product/${UUID.randomUUID()}")
+            .exchange()
+            .expectStatus().isNotFound
+    }
+
+    @Test
+    fun role_consumer__get_responds_200() {
+        WebTestClient.bindToApplicationContext(applicationContext)
+            .applyKt(SecurityMockServerConfigurers.springSecurity())
+            .build()
+            .mutateWith(SecurityMockServerConfigurers.mockUser(userFactory.create(hasRoleConsumer = true)))
+            .get().uri("/product/${productFactory.create().id}")
+            .exchange()
+            .expectStatus().isOk
+    }
+
+    @Test
+    fun role_consumer__get_responds_404_when_product_does_not_exist() {
+        WebTestClient.bindToApplicationContext(applicationContext)
+            .applyKt(SecurityMockServerConfigurers.springSecurity())
+            .build()
+            .mutateWith(SecurityMockServerConfigurers.mockUser(userFactory.create(hasRoleConsumer = true)))
             .get().uri("/product/${UUID.randomUUID()}")
             .exchange()
             .expectStatus().isNotFound
