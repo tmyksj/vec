@@ -4,14 +4,12 @@ import org.springframework.data.repository.reactive.ReactiveCrudRepository
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 import reactor.core.publisher.Mono
-import vec.domain.entity.User
+import vec.domain.entity.Cart
 
 @Component
 @Transactional
-interface UserRepository : ReactiveCrudRepository<User, String> {
+interface CartRepository : ReactiveCrudRepository<Cart, String> {
 
-    fun existsByHasRoleAdmin(hasRoleAdmin: Boolean): Mono<Boolean>
-
-    fun findByEmail(email: String): Mono<User>
+    fun findByUserId(userId: String): Mono<Cart>
 
 }

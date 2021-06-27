@@ -3,15 +3,13 @@ package vec.domain.repository
 import org.springframework.data.repository.reactive.ReactiveCrudRepository
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
-import reactor.core.publisher.Mono
-import vec.domain.entity.User
+import reactor.core.publisher.Flux
+import vec.domain.entity.CartProduct
 
 @Component
 @Transactional
-interface UserRepository : ReactiveCrudRepository<User, String> {
+interface CartProductRepository : ReactiveCrudRepository<CartProduct, String> {
 
-    fun existsByHasRoleAdmin(hasRoleAdmin: Boolean): Mono<Boolean>
-
-    fun findByEmail(email: String): Mono<User>
+    fun findAllByCartId(cartId: String): Flux<CartProduct>
 
 }

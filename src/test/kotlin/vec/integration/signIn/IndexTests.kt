@@ -19,7 +19,7 @@ class IndexTests {
     private lateinit var userFactory: UserFactory
 
     @Test
-    fun get_responds_200() {
+    fun anonymous__get_responds_200() {
         WebTestClient.bindToApplicationContext(applicationContext)
             .applyKt(SecurityMockServerConfigurers.springSecurity())
             .build()
@@ -29,11 +29,22 @@ class IndexTests {
     }
 
     @Test
-    fun get_responds_303_when_user_signed_in() {
+    fun role_admin__get_responds_303() {
         WebTestClient.bindToApplicationContext(applicationContext)
             .applyKt(SecurityMockServerConfigurers.springSecurity())
             .build()
-            .mutateWith(SecurityMockServerConfigurers.mockUser(userFactory.create()))
+            .mutateWith(SecurityMockServerConfigurers.mockUser(userFactory.create(hasRoleAdmin = true)))
+            .get().uri("/sign-in")
+            .exchange()
+            .expectStatus().isSeeOther
+    }
+
+    @Test
+    fun role_consumer__get_responds_303() {
+        WebTestClient.bindToApplicationContext(applicationContext)
+            .applyKt(SecurityMockServerConfigurers.springSecurity())
+            .build()
+            .mutateWith(SecurityMockServerConfigurers.mockUser(userFactory.create(hasRoleConsumer = true)))
             .get().uri("/sign-in")
             .exchange()
             .expectStatus().isSeeOther

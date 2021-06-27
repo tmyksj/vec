@@ -35,6 +35,7 @@ class DetailController(
 
             getProductQuery.perform(
                 GetProductQuery.Request(
+                    principal = principal,
                     id = checkNotNull(detailForm.id),
                 )
             )

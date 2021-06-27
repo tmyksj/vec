@@ -1,13 +1,11 @@
 package vec.useCase.query
 
 import reactor.core.publisher.Mono
+import vec.domain.entity.CartProduct
 import vec.domain.entity.Product
 import vec.domain.entity.User
 
-/**
- * 情報を取得します。
- */
-interface GetInformationQuery {
+interface GetCartQuery {
 
     fun perform(request: Request): Mono<Response>
 
@@ -16,14 +14,19 @@ interface GetInformationQuery {
         /**
          * principal
          */
-        val principal: User?,
+        val principal: User,
 
         )
 
     class Response(
 
         /**
-         * 注目の商品のリスト
+         * カートにある商品のリスト
+         */
+        val cartProductList: List<CartProduct>,
+
+        /**
+         * 商品のリスト
          */
         val productList: List<Product>,
 

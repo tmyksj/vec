@@ -6,9 +6,19 @@
                 th:text="${product.name}"></h2>
             <p th:text="${product.description}"></p>
         </div>
-        <div th:class="|bg-white m-2 p-4 rounded text-right w-96|">
+        <div th:class="|bg-white m-2 p-4 rounded text-right w-80|">
             <p th:text="|¥ ${product.amount}|"></p>
             <p th:text="|残り ${product.stock} 点|"></p>
+            <form th:action="@{/cart}"
+                  th:class="|mt-4|"
+                  th:method="|post|">
+                <input th:name="|productId|"
+                       th:type="|hidden|"
+                       th:value="${product.id}">
+                <button th:class="|bg-yellow-500 focus:outline-none h-9 rounded text-gray-50 w-full|"
+                        th:text="|カートに入れる|"
+                        th:type="|submit|"></button>
+            </form>
         </div>
     </div>
 </main>

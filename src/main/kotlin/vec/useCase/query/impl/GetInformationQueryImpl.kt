@@ -15,13 +15,14 @@ class GetInformationQueryImpl(
     override fun perform(
         request: GetInformationQuery.Request,
     ): Mono<GetInformationQuery.Response> {
-        return productRepository.findAll()
-            .collectList()
-            .map {
-                GetInformationQuery.Response(
-                    productList = it,
-                )
-            }
+        return Mono.defer {
+            productRepository.findAll()
+                .collectList()
+        }.map {
+            GetInformationQuery.Response(
+                productList = it,
+            )
+        }
     }
 
 }

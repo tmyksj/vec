@@ -1,13 +1,12 @@
-package vec.useCase.query
+package vec.useCase.command
 
 import reactor.core.publisher.Mono
-import vec.domain.entity.Product
 import vec.domain.entity.User
 
 /**
- * 商品を取得します。
+ * カートに商品を追加します。
  */
-interface GetProductQuery {
+interface AddToCartCommand {
 
     fun perform(request: Request): Mono<Response>
 
@@ -16,23 +15,16 @@ interface GetProductQuery {
         /**
          * principal
          */
-        val principal: User?,
+        val principal: User,
 
         /**
          * 商品 ID
          */
-        val id: String,
+        val productId: String,
 
         )
 
-    class Response(
-
-        /**
-         * 商品
-         */
-        val product: Product,
-
-        )
+    class Response
 
     class NotFoundException : RuntimeException()
 

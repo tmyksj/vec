@@ -1,6 +1,7 @@
 package vec.useCase.command
 
 import reactor.core.publisher.Mono
+import vec.domain.entity.User
 
 /**
  * ユーザを登録します。
@@ -10,6 +11,11 @@ interface RegisterUserCommand {
     fun perform(request: Request): Mono<Response>
 
     class Request(
+
+        /**
+         * principal
+         */
+        val principal: User?,
 
         /**
          * メールアドレス
@@ -22,14 +28,14 @@ interface RegisterUserCommand {
         val passwordRaw: String,
 
         /**
-         * 管理者ユーザ権限を持つかどうか
+         * 管理者ユーザの役割を持つかどうか
          */
-        val hasAuthorityAdmin: Boolean = false,
+        val hasRoleAdmin: Boolean = false,
 
         /**
-         * 一般ユーザ権限を持つかどうか
+         * 消費者ユーザの役割を持つかどうか
          */
-        val hasAuthorityGeneral: Boolean = false,
+        val hasRoleConsumer: Boolean = false,
 
         )
 

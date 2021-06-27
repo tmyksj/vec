@@ -22,7 +22,9 @@ class IndexController(
     ): Mono<Rendering> {
         return Mono.defer {
             getInformationQuery.perform(
-                GetInformationQuery.Request()
+                GetInformationQuery.Request(
+                    principal = principal,
+                )
             )
         }.map {
             Rendering.view("layout/default")
