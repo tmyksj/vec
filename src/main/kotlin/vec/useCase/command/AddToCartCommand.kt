@@ -26,6 +26,6 @@ interface AddToCartCommand {
 
     class Response
 
-    class NotFoundException : RuntimeException()
+    class ProductIsNotFoundException : RuntimeException()
 
 }

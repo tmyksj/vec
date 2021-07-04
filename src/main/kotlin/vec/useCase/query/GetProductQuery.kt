@@ -34,6 +34,6 @@ interface GetProductQuery {
 
         )
 
-    class NotFoundException : RuntimeException()
+    class ProductIsNotFoundException : RuntimeException()
 
 }
