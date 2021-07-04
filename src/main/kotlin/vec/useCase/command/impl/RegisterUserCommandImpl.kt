@@ -3,7 +3,7 @@ package vec.useCase.command.impl
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 import reactor.core.publisher.Mono
-import reactor.kotlin.core.publisher.switchIfEmpty
+import reactor.kotlin.core.publisher.onErrorMap
 import vec.domain.service.AccountService
 import vec.useCase.command.RegisterUserCommand
 
@@ -23,8 +23,8 @@ class RegisterUserCommandImpl(
                 hasRoleAdmin = request.hasRoleAdmin,
                 hasRoleConsumer = request.hasRoleConsumer,
             )
-        }.switchIfEmpty {
-            throw RegisterUserCommand.AlreadyInUseException()
+        }.onErrorMap(AccountService.EmailMustBeUniqueException::class) {
+            throw RegisterUserCommand.EmailIsAlreadyInUseException()
         }.map {
             RegisterUserCommand.Response()
         }

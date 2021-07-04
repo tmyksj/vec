@@ -41,6 +41,6 @@ interface RegisterUserCommand {
 
     class Response
 
-    class AlreadyInUseException : RuntimeException()
+    class EmailIsAlreadyInUseException : RuntimeException()
 
 }
