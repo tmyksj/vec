@@ -40,8 +40,8 @@ class IndexTests {
             .body(
                 BodyInserters
                     .fromFormData("email", "${UUID.randomUUID()}@example.com")
-                    .with("password", "passwordRaw")
-                    .with("passwordConfirmation", "passwordRaw")
+                    .with("password", "password")
+                    .with("passwordConfirmation", "password")
             ).exchange()
             .expectStatus().isSeeOther
     }
@@ -56,8 +56,8 @@ class IndexTests {
             .body(
                 BodyInserters
                     .fromFormData("email", userFactory.create().email)
-                    .with("password", "passwordRaw")
-                    .with("passwordConfirmation", "passwordRaw")
+                    .with("password", "password")
+                    .with("passwordConfirmation", "password")
             ).exchange()
             .expectStatus().isBadRequest
     }
@@ -72,8 +72,8 @@ class IndexTests {
             .body(
                 BodyInserters
                     .fromFormData("email", "[invalid]email")
-                    .with("password", "passwordRaw")
-                    .with("passwordConfirmation", "passwordRaw")
+                    .with("password", "password")
+                    .with("passwordConfirmation", "password")
             ).exchange()
             .expectStatus().isBadRequest
     }
@@ -88,7 +88,7 @@ class IndexTests {
             .body(
                 BodyInserters
                     .fromFormData("email", "${UUID.randomUUID()}@example.com")
-                    .with("password", "passwordRaw")
+                    .with("password", "password")
                     .with("passwordConfirmation", "passwordConfirmation")
             ).exchange()
             .expectStatus().isBadRequest
@@ -116,8 +116,8 @@ class IndexTests {
             .body(
                 BodyInserters
                     .fromFormData("email", "${UUID.randomUUID()}@example.com")
-                    .with("password", "passwordRaw")
-                    .with("passwordConfirmation", "passwordRaw")
+                    .with("password", "password")
+                    .with("passwordConfirmation", "password")
             ).exchange()
             .expectStatus().isSeeOther
     }
@@ -144,8 +144,8 @@ class IndexTests {
             .body(
                 BodyInserters
                     .fromFormData("email", "${UUID.randomUUID()}@example.com")
-                    .with("password", "passwordRaw")
-                    .with("passwordConfirmation", "passwordRaw")
+                    .with("password", "password")
+                    .with("passwordConfirmation", "password")
             ).exchange()
             .expectStatus().isSeeOther
     }

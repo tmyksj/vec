@@ -21,7 +21,7 @@ class WebFluxSecurityConfiguration {
     fun securityWebFilterChain(serverHttpSecurity: ServerHttpSecurity): SecurityWebFilterChain {
         serverHttpSecurity.authorizeExchange()
             .pathMatchers("/").permitAll()
-            .pathMatchers("/cart/**").hasRole("CONSUMER")
+            .pathMatchers("/cart/**").hasAnyRole("CONSUMER")
             .pathMatchers("/css/**").permitAll()
             .pathMatchers("/js/**").permitAll()
             .pathMatchers("/product/**").permitAll()
