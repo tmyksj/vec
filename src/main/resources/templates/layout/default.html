@@ -37,6 +37,12 @@
                    th:if="${principal.hasRoleConsumer}"
                    th:text="|カート|"></a>
             </p>
+            <hr th:class="|my-2|">
+            <p>
+                <a th:class="|text-blue-800|"
+                   th:href="@{/account}"
+                   th:text="|設定|"></a>
+            </p>
             <form th:action="@{/sign-out}"
                   th:method="|post|">
                 <button th:class="|focus:outline-none text-blue-800|"

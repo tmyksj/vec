@@ -1,0 +1,19 @@
+<main th:class="|mt-8 mx-auto w-11/12|"
+      xmlns:th="http://www.thymeleaf.org">
+    <div th:class="|mt-16 mx-auto w-96|">
+        <h2 th:class="|text-xl|"
+            th:text="|設定|"></h2>
+        <ul th:class="|mt-8|">
+            <li>
+                <a th:class="|text-blue-800|"
+                   th:href="@{/account/email}"
+                   th:text="|メールアドレスを変更|"></a>
+            </li>
+            <li>
+                <a th:class="|text-blue-800|"
+                   th:href="@{/account/password}"
+                   th:text="|パスワードを変更|"></a>
+            </li>
+        </ul>
+    </div>
+</main>
