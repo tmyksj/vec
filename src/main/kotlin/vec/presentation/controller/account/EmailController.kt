@@ -28,6 +28,7 @@ class EmailController(
     ): Mono<Rendering> {
         return Mono.fromCallable {
             Rendering.view("layout/default")
+                .modelAttribute("emailForm", emailForm.copy(email = principal.email))
                 .modelAttribute("principal", principal)
                 .modelAttribute("template", "template/account/email")
                 .status(HttpStatus.OK)
