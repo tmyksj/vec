@@ -15,10 +15,12 @@ import reactor.kotlin.core.publisher.toMono
 import vec.domain.entity.User
 import vec.presentation.form.account.PasswordForm
 import vec.useCase.command.ModifyUserPasswordCommand
+import vec.useCase.service.PrincipalService
 
 @Controller
 class PasswordController(
     private val modifyUserPasswordCommand: ModifyUserPasswordCommand,
+    private val principalService: PrincipalService,
 ) {
 
     @RequestMapping(method = [RequestMethod.GET], path = ["/account/password"])
@@ -60,6 +62,8 @@ class PasswordController(
                     newPasswordRaw = checkNotNull(passwordForm.newPassword),
                 )
             )
+        }.flatMap {
+            principalService.reload()
         }.map {
             Rendering.redirectTo("/account")
                 .status(HttpStatus.SEE_OTHER)

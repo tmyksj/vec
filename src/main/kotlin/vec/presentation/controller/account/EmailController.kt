@@ -15,10 +15,12 @@ import reactor.kotlin.core.publisher.toMono
 import vec.domain.entity.User
 import vec.presentation.form.account.EmailForm
 import vec.useCase.command.ModifyUserEmailCommand
+import vec.useCase.service.PrincipalService
 
 @Controller
 class EmailController(
     private val modifyUserEmailCommand: ModifyUserEmailCommand,
+    private val principalService: PrincipalService,
 ) {
 
     @RequestMapping(method = [RequestMethod.GET], path = ["/account/email"])
@@ -53,6 +55,8 @@ class EmailController(
                     email = checkNotNull(emailForm.email),
                 )
             )
+        }.flatMap {
+            principalService.reload()
         }.map {
             Rendering.redirectTo("/account")
                 .status(HttpStatus.SEE_OTHER)
