@@ -4,9 +4,9 @@ import reactor.core.publisher.Mono
 import vec.domain.entity.User
 
 /**
- * カートに商品を追加します。
+ * サービスの利用停止処理をします。
  */
-interface AddToCartCommand {
+interface UnregisterUserCommand {
 
     fun perform(request: Request): Mono<Response>
 
@@ -17,15 +17,8 @@ interface AddToCartCommand {
          */
         val principal: User,
 
-        /**
-         * 商品 ID
-         */
-        val productId: String,
-
         )
 
     class Response
-
-    class ProductIsNotFoundException : RuntimeException()
 
 }

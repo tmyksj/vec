@@ -8,6 +8,7 @@ import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.reactive.result.view.Rendering
+import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.server.ServerWebInputException
 import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.onErrorMap
@@ -64,8 +65,10 @@ class IndexController(
             Rendering.redirectTo("/cart")
                 .status(HttpStatus.SEE_OTHER)
                 .build()
-        }.onErrorMap(AddToCartCommand.NotFoundException::class) {
-            ServerWebInputException(it.toString())
+        }.onErrorMap(ServerWebInputException::class) {
+            ResponseStatusException(HttpStatus.BAD_REQUEST)
+        }.onErrorMap(AddToCartCommand.ProductIsNotFoundException::class) {
+            ResponseStatusException(HttpStatus.BAD_REQUEST)
         }
     }
 

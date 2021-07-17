@@ -86,7 +86,7 @@ class IndexController(
                 .status(HttpStatus.BAD_REQUEST)
                 .build()
                 .toMono()
-        }.onErrorResume(RegisterUserCommand.AlreadyInUseException::class) {
+        }.onErrorResume(RegisterUserCommand.EmailIsAlreadyInUseException::class) {
             bindingResult.rejectValue("email", "vec.presentation.form.signUp.IndexForm.email.alreadyInUse")
 
             Rendering.view("layout/default")

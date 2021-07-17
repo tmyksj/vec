@@ -16,17 +16,32 @@ class AccountServiceImpl(
     private val userRepository: UserRepository,
 ) : AccountService {
 
-    override fun isValid(user: User): Mono<User> {
+    override fun modifyEmail(
+        user: User,
+        email: String,
+    ): Mono<User> {
+        return Mono.fromCallable {
+            user.copy(email = email)
+        }.flatMap {
+            hasUniqueEmail(it)
+        }.flatMap {
+            userRepository.save(it)
+        }
+    }
+
+    override fun modifyPassword(
+        user: User,
+        currentPasswordRaw: String,
+        newPasswordRaw: String,
+    ): Mono<User> {
         return Mono.defer {
-            userRepository.findByEmail(user.email)
-        }.switchIfEmpty {
-            Mono.just(user)
-        }.mapNotNull {
-            if (user.id == it.id) {
-                user
+            if (passwordEncoder.matches(currentPasswordRaw, user.passwordEncrypted)) {
+                Mono.just(user.copy(passwordEncrypted = passwordEncoder.encode(newPasswordRaw)))
             } else {
-                null
+                throw AccountService.PasswordMustMatchException()
             }
+        }.flatMap {
+            userRepository.save(it)
         }
     }
 
@@ -48,9 +63,31 @@ class AccountServiceImpl(
                 hasRoleConsumer = hasRoleConsumer,
             )
         }.flatMap {
-            isValid(it)
+            hasUniqueEmail(it)
         }.flatMap {
             userRepository.save(it)
+        }
+    }
+
+    override fun unregister(user: User): Mono<User> {
+        return Mono.fromCallable {
+            user.copy(isEnabled = false)
+        }.flatMap {
+            userRepository.save(it)
+        }
+    }
+
+    private fun hasUniqueEmail(user: User): Mono<User> {
+        return Mono.defer {
+            userRepository.findByEmail(user.email)
+        }.switchIfEmpty {
+            Mono.just(user)
+        }.map {
+            if (user.id == it.id) {
+                user
+            } else {
+                throw AccountService.EmailMustBeUniqueException()
+            }
         }
     }
 

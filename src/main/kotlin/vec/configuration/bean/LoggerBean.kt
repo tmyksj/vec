@@ -1,4 +1,4 @@
-package vec.configuration
+package vec.configuration.bean
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Scope
 
 @Configuration
-class LoggerConfiguration {
+class LoggerBean {
 
     @Bean
     @Scope(value = "prototype")

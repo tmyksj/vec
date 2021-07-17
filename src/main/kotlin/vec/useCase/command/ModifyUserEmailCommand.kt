@@ -4,9 +4,9 @@ import reactor.core.publisher.Mono
 import vec.domain.entity.User
 
 /**
- * カートに商品を追加します。
+ * ユーザの email を変更します。
  */
-interface AddToCartCommand {
+interface ModifyUserEmailCommand {
 
     fun perform(request: Request): Mono<Response>
 
@@ -18,14 +18,14 @@ interface AddToCartCommand {
         val principal: User,
 
         /**
-         * 商品 ID
+         * メールアドレス
          */
-        val productId: String,
+        val email: String,
 
         )
 
     class Response
 
-    class ProductIsNotFoundException : RuntimeException()
+    class EmailIsAlreadyInUseException : RuntimeException()
 
 }

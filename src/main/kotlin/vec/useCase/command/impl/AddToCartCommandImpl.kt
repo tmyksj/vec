@@ -20,10 +20,10 @@ class AddToCartCommandImpl(
     ): Mono<AddToCartCommand.Response> {
         return Mono.defer {
             productRepository.findById(request.productId)
+        }.switchIfEmpty {
+            throw AddToCartCommand.ProductIsNotFoundException()
         }.flatMap {
             eCommerceCartService.add(request.principal, it)
-        }.switchIfEmpty {
-            throw AddToCartCommand.NotFoundException()
         }.map {
             AddToCartCommand.Response()
         }

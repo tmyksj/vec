@@ -19,7 +19,7 @@ class GetProductQueryImpl(
         return Mono.defer {
             productRepository.findById(request.id)
         }.switchIfEmpty {
-            throw GetProductQuery.NotFoundException()
+            throw GetProductQuery.ProductIsNotFoundException()
         }.map {
             GetProductQuery.Response(
                 product = it,

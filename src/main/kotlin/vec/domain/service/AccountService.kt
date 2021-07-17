@@ -9,11 +9,30 @@ import vec.domain.entity.User
 interface AccountService {
 
     /**
-     * 整合性が取れているかを判定します。
+     * メールアドレスを変更します。
      * @param user ユーザ
-     * @return user もしくは empty
+     * @param email メールアドレス
+     * @return ユーザ
+     * @throws EmailMustBeUniqueException
      */
-    fun isValid(user: User): Mono<User>
+    fun modifyEmail(
+        user: User,
+        email: String,
+    ): Mono<User>
+
+    /**
+     * パスワードを変更します。
+     * @param user ユーザ
+     * @param currentPasswordRaw 現在のパスワード
+     * @param newPasswordRaw 新しいパスワード
+     * @return ユーザ
+     * @throws PasswordMustMatchException
+     */
+    fun modifyPassword(
+        user: User,
+        currentPasswordRaw: String,
+        newPasswordRaw: String,
+    ): Mono<User>
 
     /**
      * ユーザを登録します。
@@ -21,7 +40,8 @@ interface AccountService {
      * @param passwordRaw パスワード
      * @param hasRoleAdmin 管理者ユーザの役割を持つかどうか
      * @param hasRoleConsumer 消費者ユーザの役割を持つかどうか
-     * @return 登録されたユーザもしくは empty
+     * @return 登録されたユーザ
+     * @throws EmailMustBeUniqueException
      */
     fun register(
         email: String,
@@ -29,5 +49,18 @@ interface AccountService {
         hasRoleAdmin: Boolean = false,
         hasRoleConsumer: Boolean = false,
     ): Mono<User>
+
+    /**
+     * ユーザを無効化します。
+     * @param user ユーザ
+     * @return ユーザ
+     */
+    fun unregister(
+        user: User,
+    ): Mono<User>
+
+    class EmailMustBeUniqueException : RuntimeException()
+
+    class PasswordMustMatchException : RuntimeException()
 
 }

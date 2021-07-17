@@ -48,7 +48,7 @@ class DetailController(
                 .build()
         }.onErrorMap(ServerWebInputException::class) {
             ResponseStatusException(HttpStatus.NOT_FOUND)
-        }.onErrorMap(GetProductQuery.NotFoundException::class) {
+        }.onErrorMap(GetProductQuery.ProductIsNotFoundException::class) {
             ResponseStatusException(HttpStatus.NOT_FOUND)
         }
     }
