@@ -4,7 +4,6 @@ import org.slf4j.Logger
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.DependsOn
 import org.springframework.security.crypto.password.PasswordEncoder
-import reactor.core.publisher.Mono
 import vec.domain.entity.User
 import vec.domain.repository.UserRepository
 import java.util.*
@@ -25,23 +24,20 @@ class AdminInitializer(
             .flatMap {
                 val passwordRaw: String = UUID.randomUUID().toString()
 
-                Mono.zip(
-                    userRepository.save(
-                        User(
-                            email = "admin@vec",
-                            passwordEncrypted = passwordEncoder.encode(passwordRaw),
-                            isAccountExpired = false,
-                            isAccountLocked = false,
-                            isCredentialsExpired = false,
-                            isEnabled = true,
-                            hasRoleAdmin = true,
-                            hasRoleConsumer = false,
-                        )
-                    ),
-                    Mono.just(passwordRaw),
-                )
-            }.doOnNext {
-                logger.info("Created admin user, email: ${it.t1.email}, password: ${it.t2}")
+                userRepository.save(
+                    User(
+                        email = "admin@vec",
+                        passwordEncrypted = passwordEncoder.encode(passwordRaw),
+                        isAccountExpired = false,
+                        isAccountLocked = false,
+                        isCredentialsExpired = false,
+                        isEnabled = true,
+                        hasRoleAdmin = true,
+                        hasRoleConsumer = false,
+                    )
+                ).doOnNext {
+                    logger.info("Created admin user, email: ${it.email}, password: ${passwordRaw}")
+                }
             }.subscribe()
     }
 

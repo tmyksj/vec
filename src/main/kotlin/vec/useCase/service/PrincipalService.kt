@@ -11,12 +11,16 @@ interface PrincipalService {
 
     /**
      * Principal を clear します。
+     * @param serverWebExchange serverWebExchange
+     * @return clear されたユーザ
      */
     fun clear(serverWebExchange: ServerWebExchange): Mono<User>
 
     /**
      * Principal を reload します。
+     * @param serverWebExchange serverWebExchange
+     * @return reload されたユーザ
      */
-    fun reload(): Mono<User>
+    fun reload(serverWebExchange: ServerWebExchange): Mono<User>
 
 }

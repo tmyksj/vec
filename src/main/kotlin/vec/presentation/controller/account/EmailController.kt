@@ -8,6 +8,7 @@ import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.reactive.result.view.Rendering
+import org.springframework.web.server.ServerWebExchange
 import org.springframework.web.server.ServerWebInputException
 import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.onErrorResume
@@ -43,6 +44,7 @@ class EmailController(
         @AuthenticationPrincipal principal: User,
         @Validated emailForm: EmailForm,
         bindingResult: BindingResult,
+        serverWebExchange: ServerWebExchange,
     ): Mono<Rendering> {
         return Mono.defer {
             if (bindingResult.hasErrors()) {
@@ -56,7 +58,7 @@ class EmailController(
                 )
             )
         }.flatMap {
-            principalService.reload()
+            principalService.reload(serverWebExchange)
         }.map {
             Rendering.redirectTo("/account")
                 .status(HttpStatus.SEE_OTHER)

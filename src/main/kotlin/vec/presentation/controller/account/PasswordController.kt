@@ -8,6 +8,7 @@ import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.reactive.result.view.Rendering
+import org.springframework.web.server.ServerWebExchange
 import org.springframework.web.server.ServerWebInputException
 import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.onErrorResume
@@ -42,6 +43,7 @@ class PasswordController(
         @AuthenticationPrincipal principal: User,
         @Validated passwordForm: PasswordForm,
         bindingResult: BindingResult,
+        serverWebExchange: ServerWebExchange,
     ): Mono<Rendering> {
         return Mono.defer {
             if (passwordForm.newPassword != passwordForm.newPasswordConfirmation) {
@@ -63,7 +65,7 @@ class PasswordController(
                 )
             )
         }.flatMap {
-            principalService.reload()
+            principalService.reload(serverWebExchange)
         }.map {
             Rendering.redirectTo("/account")
                 .status(HttpStatus.SEE_OTHER)

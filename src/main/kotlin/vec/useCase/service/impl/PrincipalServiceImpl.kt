@@ -28,20 +28,16 @@ class PrincipalServiceImpl(
         }
     }
 
-    override fun reload(): Mono<User> {
-        return ReactiveSecurityContextHolder.getContext().flatMap {
-            val principal: Any = it.authentication.principal
+    override fun reload(serverWebExchange: ServerWebExchange): Mono<User> {
+        return ReactiveSecurityContextHolder.getContext().flatMap { securityContext ->
+            val principal: Any = securityContext.authentication.principal
             check(principal is User)
 
-            Mono.zip(
-                Mono.just(it),
-                userRepository.findById(principal.id),
-            )
-        }.doOnNext {
-            it.t1.authentication =
-                UsernamePasswordAuthenticationToken(it.t2, it.t2.passwordEncrypted, it.t2.authorities)
-        }.map {
-            it.t2
+            userRepository.findById(principal.id)
+                .doOnNext {
+                    securityContext.authentication =
+                        UsernamePasswordAuthenticationToken(it, it.passwordEncrypted, it.authorities)
+                }
         }
     }
 

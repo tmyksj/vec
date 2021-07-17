@@ -8,7 +8,7 @@ data class DeleteForm(
     /**
      * 確認
      */
-    @field:AssertTrue(message = "{vec.presentation.form.account.DeleteForm.confirmation.AssertTrue.message}")
+    @field:AssertTrue
     @field:NotNull
     val confirmation: Boolean? = null,
 

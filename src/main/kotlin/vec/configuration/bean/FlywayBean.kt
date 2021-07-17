@@ -1,4 +1,4 @@
-package vec.configuration
+package vec.configuration.bean
 
 import org.flywaydb.core.Flyway
 import org.springframework.context.annotation.Bean
@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.core.env.Environment
 
 @Configuration
-class FlywayConfiguration(
+class FlywayBean(
     private val environment: Environment,
 ) {
 
