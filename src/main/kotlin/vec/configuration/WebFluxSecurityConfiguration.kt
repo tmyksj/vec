@@ -22,6 +22,7 @@ class WebFluxSecurityConfiguration {
         serverHttpSecurity.authorizeExchange()
             .pathMatchers("/").permitAll()
             .pathMatchers("/account/**").hasAnyRole("ADMIN", "CONSUMER")
+            .pathMatchers("/account-delete/**").permitAll()
             .pathMatchers("/cart/**").hasAnyRole("CONSUMER")
             .pathMatchers("/css/**").permitAll()
             .pathMatchers("/js/**").permitAll()

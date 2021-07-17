@@ -1,0 +1,25 @@
+<main th:class="|mt-8 mx-auto w-11/12|"
+      xmlns:th="http://www.thymeleaf.org">
+    <div th:class="|mt-16 mx-auto w-96|">
+        <h2 th:class="|text-xl|"
+            th:text="|アカウントの削除|"></h2>
+        <form th:action="@{/account/delete}"
+              th:class="|mt-8|"
+              th:method="|post|"
+              th:object="${deleteForm}">
+            <div th:class="|mt-4|">
+                <label>
+                    <input th:field="*{confirmation}" th:type="|checkbox|">
+                    <span th:text="|アカウントを削除します。|"></span>
+                </label>
+                <p th:class="|mt-1 text-red-800 text-xs|"
+                   th:errors="*{confirmation}"></p>
+            </div>
+            <div th:class="|mt-6 text-right|">
+                <button th:class="|bg-yellow-500 focus:outline-none h-9 px-4 rounded text-gray-50|"
+                        th:text="|削除|"
+                        th:type="|submit|"></button>
+            </div>
+        </form>
+    </div>
+</main>

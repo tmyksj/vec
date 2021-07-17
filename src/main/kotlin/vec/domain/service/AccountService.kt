@@ -50,6 +50,15 @@ interface AccountService {
         hasRoleConsumer: Boolean = false,
     ): Mono<User>
 
+    /**
+     * ユーザを無効化します。
+     * @param user ユーザ
+     * @return ユーザ
+     */
+    fun unregister(
+        user: User,
+    ): Mono<User>
+
     class EmailMustBeUniqueException : RuntimeException()
 
     class PasswordMustMatchException : RuntimeException()

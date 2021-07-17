@@ -69,6 +69,14 @@ class AccountServiceImpl(
         }
     }
 
+    override fun unregister(user: User): Mono<User> {
+        return Mono.fromCallable {
+            user.copy(isEnabled = false)
+        }.flatMap {
+            userRepository.save(it)
+        }
+    }
+
     private fun hasUniqueEmail(user: User): Mono<User> {
         return Mono.defer {
             userRepository.findByEmail(user.email)
