@@ -5,6 +5,9 @@ import vec.domain.entity.CartProduct
 import vec.domain.entity.Product
 import vec.domain.entity.User
 
+/**
+ * カートを取得します。
+ */
 interface GetCartQuery {
 
     fun perform(request: Request): Mono<Response>

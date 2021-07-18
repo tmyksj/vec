@@ -4,7 +4,7 @@ import reactor.core.publisher.Mono
 import vec.domain.entity.User
 
 /**
- * ユーザの email を変更します。
+ * ユーザのメールアドレスを変更します。
  */
 interface ModifyUserEmailCommand {
 

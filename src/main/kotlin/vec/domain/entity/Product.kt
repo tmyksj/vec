@@ -76,8 +76,8 @@ data class Product(
 
     /**
      * 金額を更新します。
-     * @param amount 金額
-     * @return 更新した product
+     * @param amount 金額（ JPY ）
+     * @return product
      */
     fun modifyAmount(amount: Long): Product {
         return copy(
@@ -90,7 +90,7 @@ data class Product(
     /**
      * 税率を更新します。
      * @param taxRate 税率
-     * @return 更新した product
+     * @return product
      */
     fun modifyTaxRate(taxRate: BigDecimal): Product {
         return copy(
