@@ -1,4 +1,4 @@
-<main th:class="|mt-8 mx-auto w-11/12|"
+<main th:class="|mb-40 mt-8 mx-auto w-11/12|"
       xmlns:th="http://www.thymeleaf.org">
     <div th:class="|mt-16 mx-auto w-96|">
         <h2 th:class="|text-xl|"
@@ -41,9 +41,26 @@
                 <p th:class="|mt-1 text-red-800 text-xs|"
                    th:errors="*{passwordConfirmation}"></p>
             </div>
+            <div th:class="|mt-4|">
+                <p th:class="|text-gray-600 text-sm|">
+                    <span th:text="|ユーザ登録することで、|"></span>
+                    <a th:class="|text-blue-800|"
+                       th:href="@{/terms-of-service}"
+                       th:rel="|noopener noreferrer|"
+                       th:target="|_blank|"
+                       th:text="|利用規約|"></a>
+                    <span th:text="|と|"></span>
+                    <a th:class="|text-blue-800|"
+                       th:href="@{/privacy-policy}"
+                       th:rel="|noopener noreferrer|"
+                       th:target="|_blank|"
+                       th:text="|プライバシーポリシー|"></a>
+                    <span th:text="|に同意したものとみなされます。|"></span>
+                </p>
+            </div>
             <div th:class="|mt-6 text-right|">
                 <button th:class="|bg-yellow-500 focus:outline-none h-9 px-4 rounded text-gray-50|"
-                        th:text="|サインアップ|"
+                        th:text="|ユーザ登録|"
                         th:type="|submit|"></button>
             </div>
         </form>
