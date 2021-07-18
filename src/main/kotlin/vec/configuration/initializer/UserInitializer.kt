@@ -11,7 +11,7 @@ import javax.annotation.PostConstruct
 
 @Configuration
 @DependsOn(value = ["flyway"])
-class AdminInitializer(
+class UserInitializer(
     private val logger: Logger,
     private val passwordEncoder: PasswordEncoder,
     private val userRepository: UserRepository,
@@ -19,8 +19,8 @@ class AdminInitializer(
 
     @PostConstruct
     fun initialize() {
-        userRepository.existsByHasRoleAdmin(true)
-            .filter { !it }
+        userRepository.countByHasRoleAdmin(true)
+            .filter { it == 0L }
             .flatMap {
                 val passwordRaw: String = UUID.randomUUID().toString()
 
