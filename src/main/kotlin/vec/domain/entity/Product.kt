@@ -4,6 +4,7 @@ import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.annotation.Version
+import java.math.BigDecimal
 import java.time.LocalDateTime
 import java.util.*
 
@@ -34,6 +35,21 @@ data class Product(
     val amount: Long,
 
     /**
+     * 税率
+     */
+    val taxRate: BigDecimal,
+
+    /**
+     * 税額（ JPY ）
+     */
+    val tax: Long = BigDecimal(amount).multiply(taxRate).toLong(),
+
+    /**
+     * 総額（ JPY ）
+     */
+    val total: Long = amount + tax,
+
+    /**
      * 在庫数
      */
     val stock: Long,
@@ -56,4 +72,32 @@ data class Product(
     @field:Version
     val version: Long? = null,
 
-    )
+    ) {
+
+    /**
+     * 金額を更新します。
+     * @param amount 金額
+     * @return 更新した product
+     */
+    fun modifyAmount(amount: Long): Product {
+        return copy(
+            amount = amount,
+            tax = BigDecimal(amount).multiply(taxRate).toLong(),
+            total = amount + tax,
+        )
+    }
+
+    /**
+     * 税率を更新します。
+     * @param taxRate 税率
+     * @return 更新した product
+     */
+    fun modifyTaxRate(taxRate: BigDecimal): Product {
+        return copy(
+            taxRate = taxRate,
+            tax = BigDecimal(amount).multiply(taxRate).toLong(),
+            total = amount + tax,
+        )
+    }
+
+}
