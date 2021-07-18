@@ -58,3 +58,27 @@ create table cart_product
     foreign key (product_id) references product (id) on delete cascade on update cascade
 ) engine = InnoDB
   default charset utf8mb4;
+
+create table privacy_policy
+(
+    id                 varchar(36)  not null,
+    body               text         not null,
+    applied_date       timestamp(6) not null,
+    created_date       timestamp(6) not null,
+    last_modified_date timestamp(6) not null,
+    version            bigint       not null,
+    primary key (id)
+) engine = InnoDB
+  default charset utf8mb4;
+
+create table terms_of_service
+(
+    id                 varchar(36)  not null,
+    body               text         not null,
+    applied_date       timestamp(6) not null,
+    created_date       timestamp(6) not null,
+    last_modified_date timestamp(6) not null,
+    version            bigint       not null,
+    primary key (id)
+) engine = InnoDB
+  default charset utf8mb4;
