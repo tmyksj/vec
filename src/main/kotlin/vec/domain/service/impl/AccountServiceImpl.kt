@@ -21,7 +21,7 @@ class AccountServiceImpl(
         email: String,
     ): Mono<User> {
         return Mono.fromCallable {
-            user.copy(email = email)
+            user.modifyEmail(email)
         }.flatMap {
             hasUniqueEmail(it)
         }.flatMap {
@@ -34,9 +34,9 @@ class AccountServiceImpl(
         currentPasswordRaw: String,
         newPasswordRaw: String,
     ): Mono<User> {
-        return Mono.defer {
+        return Mono.fromCallable {
             if (passwordEncoder.matches(currentPasswordRaw, user.passwordEncrypted)) {
-                Mono.just(user.copy(passwordEncrypted = passwordEncoder.encode(newPasswordRaw)))
+                user.modifyPasswordEncrypted(passwordEncoder.encode(newPasswordRaw))
             } else {
                 throw AccountService.PasswordMustMatchException()
             }
@@ -71,7 +71,7 @@ class AccountServiceImpl(
 
     override fun unregister(user: User): Mono<User> {
         return Mono.fromCallable {
-            user.copy(isEnabled = false)
+            user.modifyToDisabled()
         }.flatMap {
             userRepository.save(it)
         }

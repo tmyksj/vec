@@ -4,7 +4,7 @@ import reactor.core.publisher.Mono
 import vec.domain.entity.User
 
 /**
- * サービスの利用停止処理をします。
+ * ユーザの利用停止処理をします。
  */
 interface UnregisterUserCommand {
 
