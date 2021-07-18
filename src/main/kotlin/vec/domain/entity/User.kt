@@ -117,4 +117,30 @@ data class User(
         return isEnabled
     }
 
+    /**
+     * メールアドレスを変更します。
+     * @param email メールアドレス
+     * @return user
+     */
+    fun modifyEmail(email: String): User {
+        return copy(email = email)
+    }
+
+    /**
+     * パスワードを変更します。
+     * @param passwordEncrypted パスワード
+     * @return user
+     */
+    fun modifyPasswordEncrypted(passwordEncrypted: String): User {
+        return copy(passwordEncrypted = passwordEncrypted)
+    }
+
+    /**
+     * ユーザを無効化します。
+     * @return user
+     */
+    fun modifyToDisabled(): User {
+        return copy(isEnabled = false)
+    }
+
 }
