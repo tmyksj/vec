@@ -52,7 +52,14 @@
         </div>
     </div>
 </header>
-<main th:replace="~{${template}}">
-</main>
+<main th:replace="~{${template}}"></main>
+<footer th:class="|pb-2 px-4|">
+    <a th:class="|text-gray-600 text-sm|"
+       th:href="@{/terms-of-service}"
+       th:text="|利用規約|"></a>
+    <a th:class="|text-gray-600 text-sm|"
+       th:href="@{/terms-of-service}"
+       th:text="|プライバシーポリシー|"></a>
+</footer>
 </body>
 </html>
