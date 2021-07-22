@@ -56,10 +56,8 @@ class IndexController(
             }
 
             addToCartCommand.perform(
-                AddToCartCommand.Request(
-                    principal = principal,
-                    productId = checkNotNull(indexForm.productId),
-                )
+                principal = principal,
+                productId = checkNotNull(indexForm.productId),
             )
         }.map {
             Rendering.redirectTo("/cart")

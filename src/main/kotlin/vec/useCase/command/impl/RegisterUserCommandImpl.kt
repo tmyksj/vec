@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.onErrorMap
+import vec.domain.entity.User
 import vec.domain.service.AccountService
 import vec.useCase.command.RegisterUserCommand
 
@@ -14,19 +15,21 @@ class RegisterUserCommandImpl(
 ) : RegisterUserCommand {
 
     override fun perform(
-        request: RegisterUserCommand.Request,
-    ): Mono<RegisterUserCommand.Response> {
+        principal: User?,
+        email: String,
+        passwordRaw: String,
+        hasRoleAdmin: Boolean,
+        hasRoleConsumer: Boolean,
+    ): Mono<User> {
         return Mono.defer {
             accountService.register(
-                email = request.email,
-                passwordRaw = request.passwordRaw,
-                hasRoleAdmin = request.hasRoleAdmin,
-                hasRoleConsumer = request.hasRoleConsumer,
+                email = email,
+                passwordRaw = passwordRaw,
+                hasRoleAdmin = hasRoleAdmin,
+                hasRoleConsumer = hasRoleConsumer,
             )
         }.onErrorMap(AccountService.EmailMustBeUniqueException::class) {
-            throw RegisterUserCommand.EmailIsAlreadyInUseException()
-        }.map {
-            RegisterUserCommand.Response()
+            RegisterUserCommand.EmailIsAlreadyInUseException()
         }
     }
 

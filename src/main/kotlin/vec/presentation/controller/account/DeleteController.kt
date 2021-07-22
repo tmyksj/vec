@@ -51,9 +51,7 @@ class DeleteController(
             }
 
             unregisterUserCommand.perform(
-                UnregisterUserCommand.Request(
-                    principal = principal,
-                )
+                principal = principal,
             )
         }.flatMap {
             principalService.clear(serverWebExchange)

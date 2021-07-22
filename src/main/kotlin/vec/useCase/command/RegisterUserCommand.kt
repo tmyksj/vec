@@ -8,38 +8,22 @@ import vec.domain.entity.User
  */
 interface RegisterUserCommand {
 
-    fun perform(request: Request): Mono<Response>
-
-    class Request(
-
-        /**
-         * principal
-         */
-        val principal: User?,
-
-        /**
-         * メールアドレス
-         */
-        val email: String,
-
-        /**
-         * パスワード
-         */
-        val passwordRaw: String,
-
-        /**
-         * 管理者ユーザの役割を持つかどうか
-         */
-        val hasRoleAdmin: Boolean = false,
-
-        /**
-         * 消費者ユーザの役割を持つかどうか
-         */
-        val hasRoleConsumer: Boolean = false,
-
-        )
-
-    class Response
+    /**
+     * @param principal principal
+     * @param email メールアドレス
+     * @param passwordRaw パスワード
+     * @param hasRoleAdmin 管理者ユーザの役割を持つかどうか
+     * @param hasRoleConsumer 消費者ユーザの役割を持つかどうか
+     * @return ユーザ
+     * @throws EmailIsAlreadyInUseException
+     */
+    fun perform(
+        principal: User?,
+        email: String,
+        passwordRaw: String,
+        hasRoleAdmin: Boolean = false,
+        hasRoleConsumer: Boolean = false,
+    ): Mono<User>
 
     class EmailIsAlreadyInUseException : RuntimeException()
 
