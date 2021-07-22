@@ -1,15 +1,18 @@
 package vec.domain.repository
 
+import org.springframework.data.repository.NoRepositoryBean
 import org.springframework.data.repository.reactive.ReactiveCrudRepository
-import org.springframework.stereotype.Component
-import org.springframework.transaction.annotation.Transactional
 import reactor.core.publisher.Mono
 import vec.domain.entity.Cart
 
-@Component
-@Transactional
+@NoRepositoryBean
 interface CartRepository : ReactiveCrudRepository<Cart, String> {
 
+    /**
+     * ユーザのカートを返します。
+     * @param userId ユーザ ID
+     * @return カート
+     */
     fun findByUserId(userId: String): Mono<Cart>
 
 }

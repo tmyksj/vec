@@ -1,15 +1,18 @@
 package vec.domain.repository
 
+import org.springframework.data.repository.NoRepositoryBean
 import org.springframework.data.repository.reactive.ReactiveCrudRepository
-import org.springframework.stereotype.Component
-import org.springframework.transaction.annotation.Transactional
 import reactor.core.publisher.Flux
 import vec.domain.entity.CartProduct
 
-@Component
-@Transactional
+@NoRepositoryBean
 interface CartProductRepository : ReactiveCrudRepository<CartProduct, String> {
 
+    /**
+     * カートにある商品を返します。
+     * @param cartId カート ID
+     * @return カートにある商品
+     */
     fun findAllByCartId(cartId: String): Flux<CartProduct>
 
 }
