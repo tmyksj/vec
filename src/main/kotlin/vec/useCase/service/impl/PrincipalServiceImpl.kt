@@ -18,7 +18,9 @@ class PrincipalServiceImpl(
 ) : PrincipalService {
 
     override fun clear(serverWebExchange: ServerWebExchange): Mono<User> {
-        return ReactiveSecurityContextHolder.getContext().flatMap {
+        return Mono.defer {
+            ReactiveSecurityContextHolder.getContext()
+        }.flatMap {
             val principal: Any = it.authentication.principal
             check(principal is User)
 
@@ -29,7 +31,9 @@ class PrincipalServiceImpl(
     }
 
     override fun reload(serverWebExchange: ServerWebExchange): Mono<User> {
-        return ReactiveSecurityContextHolder.getContext().flatMap { securityContext ->
+        return Mono.defer {
+            ReactiveSecurityContextHolder.getContext()
+        }.flatMap { securityContext ->
             val principal: Any = securityContext.authentication.principal
             check(principal is User)
 
