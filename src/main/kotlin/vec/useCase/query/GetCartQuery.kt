@@ -1,37 +1,74 @@
 package vec.useCase.query
 
-import reactor.core.publisher.Mono
-import vec.domain.entity.CartProduct
-import vec.domain.entity.Product
+import reactor.core.publisher.Flux
 import vec.domain.entity.User
+import java.math.BigDecimal
+import java.time.LocalDateTime
 
 /**
  * カートを取得します。
  */
 interface GetCartQuery {
 
-    fun perform(request: Request): Mono<Response>
+    /**
+     * @param principal principal
+     * @return
+     */
+    fun perform(
+        principal: User,
+    ): Flux<Dto>
 
-    class Request(
-
-        /**
-         * principal
-         */
-        val principal: User,
-
-        )
-
-    class Response(
+    data class Dto(
 
         /**
-         * カートにある商品のリスト
+         * ID
          */
-        val cartProductList: List<CartProduct>,
+        val id: String,
 
         /**
-         * 商品のリスト
+         * 商品 ID
          */
-        val productList: List<Product>,
+        val productId: String,
+
+        /**
+         * 商品名
+         */
+        val name: String,
+
+        /**
+         * 商品の説明
+         */
+        val description: String,
+
+        /**
+         * 金額（ JPY ）
+         */
+        val amount: Long,
+
+        /**
+         * 税率
+         */
+        val taxRate: BigDecimal,
+
+        /**
+         * 税額（ JPY ）
+         */
+        val tax: Long,
+
+        /**
+         * 総額（ JPY ）
+         */
+        val total: Long,
+
+        /**
+         * 在庫数
+         */
+        val stock: Long,
+
+        /**
+         * 追加日時
+         */
+        val addedDate: LocalDateTime,
 
         )
 

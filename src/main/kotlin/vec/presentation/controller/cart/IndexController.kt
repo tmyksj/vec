@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.reactive.result.view.Rendering
 import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.server.ServerWebInputException
+import org.thymeleaf.spring5.context.webflux.ReactiveDataDriverContextVariable
 import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.onErrorMap
 import vec.domain.entity.User
@@ -27,17 +28,14 @@ class IndexController(
     fun get(
         @AuthenticationPrincipal principal: User,
     ): Mono<Rendering> {
-        return Mono.defer {
+        return Mono.fromCallable {
             getCartQuery.perform(
-                GetCartQuery.Request(
-                    principal = principal,
-                )
+                principal = principal,
             )
-        }.map { response ->
+        }.map {
             Rendering.view("layout/default")
-                .modelAttribute("cartProductList", response.cartProductList)
+                .modelAttribute("cartProductList", ReactiveDataDriverContextVariable(it))
                 .modelAttribute("principal", principal)
-                .modelAttribute("productMap", response.productList.associateBy { it.id })
                 .modelAttribute("template", "template/cart/index")
                 .status(HttpStatus.OK)
                 .build()

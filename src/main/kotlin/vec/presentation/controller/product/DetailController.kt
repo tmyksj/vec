@@ -34,15 +34,13 @@ class DetailController(
             }
 
             getProductQuery.perform(
-                GetProductQuery.Request(
-                    principal = principal,
-                    id = checkNotNull(detailForm.id),
-                )
+                principal = principal,
+                id = checkNotNull(detailForm.id),
             )
         }.map {
             Rendering.view("layout/default")
                 .modelAttribute("principal", principal)
-                .modelAttribute("product", it.product)
+                .modelAttribute("product", it)
                 .modelAttribute("template", "template/product/detail")
                 .status(HttpStatus.OK)
                 .build()

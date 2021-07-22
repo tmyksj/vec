@@ -22,7 +22,7 @@ class IndexController(
     ): Mono<Rendering> {
         return Mono.defer {
             getTermsOfServiceQuery.perform(
-                GetTermsOfServiceQuery.Request()
+                principal = principal,
             )
         }.map {
             Rendering.view("layout/default")
