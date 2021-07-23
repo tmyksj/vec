@@ -8,28 +8,18 @@ import vec.domain.entity.User
  */
 interface ModifyUserPasswordCommand {
 
-    fun perform(request: Request): Mono<Response>
-
-    class Request(
-
-        /**
-         * principal
-         */
-        val principal: User,
-
-        /**
-         * 現在のパスワード
-         */
-        val currentPasswordRaw: String,
-
-        /**
-         * 新しいパスワード
-         */
-        val newPasswordRaw: String,
-
-        )
-
-    class Response
+    /**
+     * @param principal principal
+     * @param currentPasswordRaw 現在のパスワード
+     * @param newPasswordRaw 新しいパスワード
+     * @return ユーザ
+     * @throws PasswordMismatchesException
+     */
+    fun perform(
+        principal: User,
+        currentPasswordRaw: String,
+        newPasswordRaw: String,
+    ): Mono<User>
 
     class PasswordMismatchesException : RuntimeException()
 

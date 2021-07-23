@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.onErrorMap
+import vec.domain.entity.User
 import vec.domain.service.AccountService
 import vec.useCase.command.ModifyUserPasswordCommand
 
@@ -14,14 +15,14 @@ class ModifyUserPasswordCommandImpl(
 ) : ModifyUserPasswordCommand {
 
     override fun perform(
-        request: ModifyUserPasswordCommand.Request,
-    ): Mono<ModifyUserPasswordCommand.Response> {
+        principal: User,
+        currentPasswordRaw: String,
+        newPasswordRaw: String,
+    ): Mono<User> {
         return Mono.defer {
-            accountService.modifyPassword(request.principal, request.currentPasswordRaw, request.newPasswordRaw)
+            accountService.modifyPassword(principal, currentPasswordRaw, newPasswordRaw)
         }.onErrorMap(AccountService.PasswordMustMatchException::class) {
-            throw ModifyUserPasswordCommand.PasswordMismatchesException()
-        }.map {
-            ModifyUserPasswordCommand.Response()
+            ModifyUserPasswordCommand.PasswordMismatchesException()
         }
     }
 

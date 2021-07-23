@@ -52,10 +52,8 @@ class EmailController(
             }
 
             modifyUserEmailCommand.perform(
-                ModifyUserEmailCommand.Request(
-                    principal = principal,
-                    email = checkNotNull(emailForm.email),
-                )
+                principal = principal,
+                email = checkNotNull(emailForm.email),
             )
         }.flatMap {
             principalService.reload(serverWebExchange)

@@ -8,17 +8,12 @@ import vec.domain.entity.User
  */
 interface UnregisterUserCommand {
 
-    fun perform(request: Request): Mono<Response>
-
-    class Request(
-
-        /**
-         * principal
-         */
-        val principal: User,
-
-        )
-
-    class Response
+    /**
+     * @param principal principal
+     * @return ユーザ
+     */
+    fun perform(
+        principal: User,
+    ): Mono<User>
 
 }

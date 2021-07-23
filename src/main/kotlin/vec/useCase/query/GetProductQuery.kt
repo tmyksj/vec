@@ -9,30 +9,16 @@ import vec.domain.entity.User
  */
 interface GetProductQuery {
 
-    fun perform(request: Request): Mono<Response>
-
-    class Request(
-
-        /**
-         * principal
-         */
-        val principal: User?,
-
-        /**
-         * 商品 ID
-         */
-        val id: String,
-
-        )
-
-    class Response(
-
-        /**
-         * 商品
-         */
-        val product: Product,
-
-        )
+    /**
+     * @param principal principal
+     * @param id 商品 ID
+     * @return 商品
+     * @throws ProductIsNotFoundException
+     */
+    fun perform(
+        principal: User?,
+        id: String,
+    ): Mono<Product>
 
     class ProductIsNotFoundException : RuntimeException()
 

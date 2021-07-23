@@ -30,6 +30,7 @@ class IndexController(
         if (principal != null) {
             return Mono.fromCallable {
                 Rendering.redirectTo("/")
+                    .status(HttpStatus.SEE_OTHER)
                     .build()
             }
         }
@@ -52,6 +53,7 @@ class IndexController(
         if (principal != null) {
             return Mono.fromCallable {
                 Rendering.redirectTo("/")
+                    .status(HttpStatus.SEE_OTHER)
                     .build()
             }
         }
@@ -68,12 +70,10 @@ class IndexController(
             }
 
             registerUserCommand.perform(
-                RegisterUserCommand.Request(
-                    principal = principal,
-                    email = checkNotNull(indexForm.email),
-                    passwordRaw = checkNotNull(indexForm.password),
-                    hasRoleConsumer = true,
-                )
+                principal = principal,
+                email = checkNotNull(indexForm.email),
+                passwordRaw = checkNotNull(indexForm.password),
+                hasRoleConsumer = true,
             )
         }.map {
             Rendering.redirectTo("/sign-in")

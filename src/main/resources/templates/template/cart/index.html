@@ -6,9 +6,9 @@
         <div th:class="|flex-1|">
             <div th:class="|bg-white m-2 p-4 rounded text-lg|"
                  th:each="cartProduct : ${cartProductList}">
-                <p th:text="${productMap[cartProduct.productId].name}"></p>
+                <p th:text="${cartProduct.name}"></p>
                 <p th:class="|text-sm|"
-                   th:text="|¥ ${productMap[cartProduct.productId].total} (税込)|"></p>
+                   th:text="|¥ ${cartProduct.total} (税込)|"></p>
             </div>
         </div>
         <div th:class="|bg-white m-2 p-4 rounded text-right w-80|">

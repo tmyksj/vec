@@ -22,7 +22,7 @@ class IndexController(
     ): Mono<Rendering> {
         return Mono.defer {
             getPrivacyPolicyQuery.perform(
-                GetPrivacyPolicyQuery.Request()
+                principal = principal,
             )
         }.map {
             Rendering.view("layout/default")

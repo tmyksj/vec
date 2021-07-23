@@ -58,11 +58,9 @@ class PasswordController(
             }
 
             modifyUserPasswordCommand.perform(
-                ModifyUserPasswordCommand.Request(
-                    principal = principal,
-                    currentPasswordRaw = checkNotNull(passwordForm.currentPassword),
-                    newPasswordRaw = checkNotNull(passwordForm.newPassword),
-                )
+                principal = principal,
+                currentPasswordRaw = checkNotNull(passwordForm.currentPassword),
+                newPasswordRaw = checkNotNull(passwordForm.newPassword),
             )
         }.flatMap {
             principalService.reload(serverWebExchange)

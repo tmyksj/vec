@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.onErrorMap
+import vec.domain.entity.User
 import vec.domain.service.AccountService
 import vec.useCase.command.ModifyUserEmailCommand
 
@@ -14,14 +15,13 @@ class ModifyUserEmailCommandImpl(
 ) : ModifyUserEmailCommand {
 
     override fun perform(
-        request: ModifyUserEmailCommand.Request,
-    ): Mono<ModifyUserEmailCommand.Response> {
+        principal: User,
+        email: String,
+    ): Mono<User> {
         return Mono.defer {
-            accountService.modifyEmail(request.principal, request.email)
+            accountService.modifyEmail(principal, email)
         }.onErrorMap(AccountService.EmailMustBeUniqueException::class) {
-            throw ModifyUserEmailCommand.EmailIsAlreadyInUseException()
-        }.map {
-            ModifyUserEmailCommand.Response()
+            ModifyUserEmailCommand.EmailIsAlreadyInUseException()
         }
     }
 

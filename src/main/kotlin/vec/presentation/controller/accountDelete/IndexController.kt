@@ -20,6 +20,7 @@ class IndexController {
         if (principal != null) {
             return Mono.fromCallable {
                 Rendering.redirectTo("/")
+                    .status(HttpStatus.SEE_OTHER)
                     .build()
             }
         }

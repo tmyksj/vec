@@ -1,24 +1,17 @@
 package vec.domain.repository
 
-import org.springframework.data.r2dbc.repository.Query
+import org.springframework.data.repository.NoRepositoryBean
 import org.springframework.data.repository.reactive.ReactiveCrudRepository
-import org.springframework.stereotype.Component
-import org.springframework.transaction.annotation.Transactional
 import reactor.core.publisher.Mono
 import vec.domain.entity.TermsOfService
 
-@Component
-@Transactional
+@NoRepositoryBean
 interface TermsOfServiceRepository : ReactiveCrudRepository<TermsOfService, String> {
 
-    @Query(
-        value = """
-            select *
-            from terms_of_service
-            where applied_date <= now()
-            order by applied_date desc
-        """,
-    )
+    /**
+     * 現時点で効力を持つ利用規約を返します。
+     * @return 利用規約
+     */
     fun findCurrentVersion(): Mono<TermsOfService>
 
 }
