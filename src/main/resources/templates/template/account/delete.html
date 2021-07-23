@@ -10,7 +10,8 @@
             <div th:class="|mt-4|">
                 <label>
                     <input th:field="*{confirmation}" th:type="|checkbox|">
-                    <span th:text="|アカウントを削除します。|"></span>
+                    <span th:class="|ml-1|"
+                          th:text="|アカウントを削除します。|"></span>
                 </label>
                 <p th:class="|mt-1 text-red-800 text-xs|"
                    th:errors="*{confirmation}"></p>
