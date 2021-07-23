@@ -6,60 +6,82 @@
     <meta th:content="|initial-scale=1, width=device-width|"
           th:name="|viewport|">
     <title th:text="|vec: virtual e-commerce|"></title>
-    <link th:href="@{/css/tailwind.min.css}"
+    <link th:href="@{/css/default.css}"
           th:rel="|stylesheet|">
-    <script th:src="@{/js/script.js}"></script>
+    <script th:src="@{/js/default.js}"></script>
 </head>
-<body th:class="|bg-gray-50 min-h-screen text-gray-900|">
-<header th:class="|bg-yellow-500 flex h-12 items-center px-4|">
-    <h1>
-        <a th:class="|bg-gray-50 px-4 py-0.5 rounded text-yellow-500 text-xl|"
-           th:href="@{/}"
-           th:text="|vec|"></a>
-    </h1>
-    <div th:class="|flex-1|"></div>
-    <div th:if="${principal == null}">
-        <a th:class="|text-gray-50|"
-           th:href="@{/sign-in}"
-           th:text="|サインイン|"></a>
+<body>
+<div th:id="|v-app|">
+    <div th:class="|bg-gray-50 min-h-screen text-gray-900|"
+         th:v-on:click="|closeAccountMenu|">
+        <header th:class="|bg-yellow-500 flex h-12 items-center px-4|">
+            <h1>
+                <a th:class="|bg-gray-50 px-4 py-0.5 rounded text-yellow-500 text-xl|"
+                   th:href="@{/}"
+                   th:text="|vec|"></a>
+            </h1>
+            <div th:class="|flex-1|"></div>
+            <div th:if="${principal == null}">
+                <a th:class="|text-gray-50|"
+                   th:href="@{/sign-in}"
+                   th:text="|サインイン|"></a>
+            </div>
+            <div th:if="${principal != null}">
+                <button th:class="|focus:outline-none text-gray-50|"
+                        th:text="|アカウント|"
+                        th:type="|button|"
+                        th:v-on:click.stop="|openAccountMenu|"></button>
+                <div th:class="|bg-white fixed p-4 right-4 shadow top-16 w-80|"
+                     th:v-bind:class="|{ hidden: !accountMenu }|"
+                     th:v-on:click.stop="|openAccountMenu|">
+                    <p>
+                        <a th:class="|text-blue-800|"
+                           th:href="@{/cart}"
+                           th:if="${principal.hasRoleConsumer}"
+                           th:text="|カート|"></a>
+                    </p>
+                    <hr th:class="|my-2|">
+                    <p>
+                        <a th:class="|text-blue-800|"
+                           th:href="@{/account}"
+                           th:text="|設定|"></a>
+                    </p>
+                    <form th:action="@{/sign-out}"
+                          th:method="|post|">
+                        <button th:class="|focus:outline-none text-blue-800|"
+                                th:text="|サインアウト|"
+                                th:type="|submit|"></button>
+                    </form>
+                </div>
+            </div>
+        </header>
+        <main th:replace="~{${template}}"></main>
+        <footer th:class="|pb-2 px-4|">
+            <a th:class="|text-gray-600 text-sm|"
+               th:href="@{/terms-of-service}"
+               th:text="|利用規約|"></a>
+            <a th:class="|text-gray-600 text-sm|"
+               th:href="@{/terms-of-service}"
+               th:text="|プライバシーポリシー|"></a>
+        </footer>
     </div>
-    <div th:if="${principal != null}">
-        <button th:class="|focus:outline-none text-gray-50|"
-                th:text="|アカウント|"
-                th:type="|button|"
-                th:vec-open="|header>account|"></button>
-        <div th:class="|bg-white fixed hidden p-4 right-4 shadow top-16 w-80|"
-             th:vec-autoclose="|header>account|"
-             th:vec-id="|header>account|">
-            <p>
-                <a th:class="|text-blue-800|"
-                   th:href="@{/cart}"
-                   th:if="${principal.hasRoleConsumer}"
-                   th:text="|カート|"></a>
-            </p>
-            <hr th:class="|my-2|">
-            <p>
-                <a th:class="|text-blue-800|"
-                   th:href="@{/account}"
-                   th:text="|設定|"></a>
-            </p>
-            <form th:action="@{/sign-out}"
-                  th:method="|post|">
-                <button th:class="|focus:outline-none text-blue-800|"
-                        th:text="|サインアウト|"
-                        th:type="|submit|"></button>
-            </form>
-        </div>
-    </div>
-</header>
-<main th:replace="~{${template}}"></main>
-<footer th:class="|pb-2 px-4|">
-    <a th:class="|text-gray-600 text-sm|"
-       th:href="@{/terms-of-service}"
-       th:text="|利用規約|"></a>
-    <a th:class="|text-gray-600 text-sm|"
-       th:href="@{/terms-of-service}"
-       th:text="|プライバシーポリシー|"></a>
-</footer>
+    <script th:inline="javascript">
+        window.vec.mixin({
+            data() {
+                return {
+                    accountMenu: false,
+                };
+            },
+            methods: {
+                closeAccountMenu() {
+                    this.accountMenu = false;
+                },
+                openAccountMenu() {
+                    this.accountMenu = true;
+                },
+            },
+        });
+    </script>
+</div>
 </body>
 </html>
