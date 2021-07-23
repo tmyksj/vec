@@ -11,7 +11,8 @@
     <script th:src="@{/js/default.js}"></script>
 </head>
 <body>
-<div th:id="|v-app|">
+<div th:id="|v-app|"
+     th:v-cloak="|v-cloak|">
     <div th:class="|bg-gray-50 min-h-screen text-gray-900|"
          th:v-on:click="|closeAccountMenu|">
         <header th:class="|bg-yellow-500 flex h-12 items-center px-4|">

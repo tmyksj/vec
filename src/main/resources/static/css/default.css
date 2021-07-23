@@ -1,1 +1,5 @@
 @import "/css/tailwind.min.css";
+
+[v-cloak] {
+    display: none;
+}
