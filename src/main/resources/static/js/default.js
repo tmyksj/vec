@@ -7,7 +7,8 @@ window.vec = {
         document.querySelectorAll("#v-app script").forEach((value) => {
             value.remove();
         });
-        Vue.createApp({mixins: this.mixins}).mount("#v-app");
+
+        Vue.createApp({ mixins: this.mixins }).mount("#v-app");
     },
 
     mixin(mixin) {
