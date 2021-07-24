@@ -30,6 +30,16 @@ class IndexTests {
     private lateinit var userFactory: UserFactory
 
     @Test
+    fun anonymous__get_responds_302() {
+        WebTestClient.bindToApplicationContext(applicationContext)
+            .applyKt(SecurityMockServerConfigurers.springSecurity())
+            .build()
+            .get().uri("/order")
+            .exchange()
+            .expectStatus().isFound
+    }
+
+    @Test
     fun anonymous__post_responds_302() {
         WebTestClient.bindToApplicationContext(applicationContext)
             .applyKt(SecurityMockServerConfigurers.springSecurity())
@@ -40,6 +50,17 @@ class IndexTests {
                 BodyInserters.fromFormData("", "")
             ).exchange()
             .expectStatus().isFound
+    }
+
+    @Test
+    fun role_admin__get_responds_403() {
+        WebTestClient.bindToApplicationContext(applicationContext)
+            .applyKt(SecurityMockServerConfigurers.springSecurity())
+            .build()
+            .mutateWith(SecurityMockServerConfigurers.mockUser(userFactory.create(hasRoleAdmin = true)))
+            .get().uri("/order")
+            .exchange()
+            .expectStatus().isForbidden
     }
 
     @Test
@@ -54,6 +75,17 @@ class IndexTests {
                 BodyInserters.fromFormData("", "")
             ).exchange()
             .expectStatus().isForbidden
+    }
+
+    @Test
+    fun role_consumer__get_responds_200() {
+        WebTestClient.bindToApplicationContext(applicationContext)
+            .applyKt(SecurityMockServerConfigurers.springSecurity())
+            .build()
+            .mutateWith(SecurityMockServerConfigurers.mockUser(userFactory.create(hasRoleConsumer = true)))
+            .get().uri("/order")
+            .exchange()
+            .expectStatus().isOk
     }
 
     @Test

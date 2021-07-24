@@ -1,0 +1,15 @@
+<main th:class="|mb-40 mt-8 mx-auto w-11/12|"
+      xmlns:th="http://www.thymeleaf.org">
+    <h2 th:class="|text-xl|"
+        th:text="|注文履歴|"></h2>
+    <div th:class="|flex|">
+        <div th:class="|flex-1|">
+            <div th:class="|bg-white m-2 p-4 rounded text-lg|"
+                 th:each="order : ${orderList}">
+                <p th:text="${#temporals.format(order.orderedDate)}"></p>
+                <p th:class="|text-sm|"
+                   th:text="|¥ ${order.total} (税込)|"></p>
+            </div>
+        </div>
+    </div>
+</main>
