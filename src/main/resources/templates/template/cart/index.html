@@ -14,7 +14,13 @@
                 </div>
             </div>
         </div>
-        <div th:class="|bg-white m-2 p-4 rounded text-right w-80|">
+        <div th:class="|bg-white flex flex-col-reverse m-2 p-4 rounded w-80|">
+            <form th:action="@{/order}"
+                  th:method="|post|">
+                <button th:class="|bg-yellow-500 focus:outline-none h-9 rounded text-gray-50 w-full|"
+                        th:text="|注文する|"
+                        th:type="|submit|"></button>
+            </form>
         </div>
     </div>
 </main>

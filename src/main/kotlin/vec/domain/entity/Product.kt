@@ -100,4 +100,24 @@ data class Product(
         )
     }
 
+    /**
+     * 在庫数を減らします。
+     * @param stock 在庫数
+     * @return product
+     */
+    fun reduceStock(stock: Long): Product {
+        if (this.stock - stock < 0) {
+            throw StockMustBeEnoughException()
+        }
+
+        return copy(
+            stock = this.stock - stock,
+        )
+    }
+
+    /**
+     * 十分な在庫がない場合に投げられます。
+     */
+    class StockMustBeEnoughException : RuntimeException()
+
 }
