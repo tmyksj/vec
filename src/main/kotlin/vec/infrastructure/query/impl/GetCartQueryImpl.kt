@@ -32,8 +32,8 @@ class GetCartQueryImpl(
                            cart_product.quantity   as cp_quantity,
                            cart_product.added_date as cp_added_date
                     from cart
-                             left join cart_product on cart.id = cart_product.cart_id
-                             left join product on cart_product.product_id = product.id
+                             inner join cart_product on cart.id = cart_product.cart_id
+                             inner join product on cart_product.product_id = product.id
                     where cart.user_id = :id
                     order by cart_product.added_date desc
                 """.trimIndent()

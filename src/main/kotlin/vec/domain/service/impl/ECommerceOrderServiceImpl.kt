@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.onErrorMap
-import reactor.kotlin.core.publisher.switchIfEmpty
+import reactor.kotlin.core.publisher.switchIfEmptyDeferred
 import vec.domain.entity.Order
 import vec.domain.entity.OrderProduct
 import vec.domain.entity.Product
@@ -40,11 +40,9 @@ class ECommerceOrderServiceImpl(
             )
         }.flatMap { order ->
             cartRepository.findByUserId(user.id)
-                .switchIfEmpty {
-                    throw ECommerceOrderService.CartProductMustExistException()
-                }.flatMapMany {
+                .flatMapMany {
                     cartProductRepository.findAllByCartId(it.id)
-                }.switchIfEmpty {
+                }.switchIfEmptyDeferred {
                     throw ECommerceOrderService.CartProductMustExistException()
                 }.flatMap { cartProduct ->
                     productRepository.findById(cartProduct.productId)
