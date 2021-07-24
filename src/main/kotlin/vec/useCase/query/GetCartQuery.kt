@@ -7,6 +7,7 @@ import java.time.LocalDateTime
 
 /**
  * カートを取得します。
+ * 追加日時の降順です。
  */
 interface GetCartQuery {
 

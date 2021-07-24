@@ -35,6 +35,7 @@ class GetCartQueryImpl(
                              left join cart_product on cart.id = cart_product.cart_id
                              left join product on cart_product.product_id = product.id
                     where cart.user_id = :id
+                    order by cart_product.added_date desc
                 """.trimIndent()
             ).bind("id", principal.id)
                 .map { row, _ ->
