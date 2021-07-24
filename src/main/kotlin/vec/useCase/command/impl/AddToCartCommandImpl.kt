@@ -20,13 +20,14 @@ class AddToCartCommandImpl(
     override fun perform(
         principal: User,
         productId: String,
+        quantity: Long,
     ): Mono<CartProduct> {
         return Mono.defer {
             productRepository.findById(productId)
         }.switchIfEmpty {
             throw AddToCartCommand.ProductIsNotFoundException()
         }.flatMap {
-            eCommerceCartService.add(principal, it)
+            eCommerceCartService.add(principal, it, quantity)
         }
     }
 

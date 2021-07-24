@@ -66,6 +66,11 @@ interface GetCartQuery {
         val stock: Long,
 
         /**
+         * 数量
+         */
+        val quantity: Long,
+
+        /**
          * 追加日時
          */
         val addedDate: LocalDateTime,

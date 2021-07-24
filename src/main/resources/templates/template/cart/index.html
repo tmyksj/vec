@@ -7,8 +7,11 @@
             <div th:class="|bg-white m-2 p-4 rounded text-lg|"
                  th:each="cartProduct : ${cartProductList}">
                 <p th:text="${cartProduct.name}"></p>
-                <p th:class="|text-sm|"
-                   th:text="|¥ ${cartProduct.total} (税込)|"></p>
+                <div th:class="|flex justify-between|">
+                    <p th:class="|text-sm|"
+                       th:text="|¥ ${cartProduct.total} (税込)|"></p>
+                    <p th:class="|text-sm|" th:text="|${cartProduct.quantity} 個|"></p>
+                </div>
             </div>
         </div>
         <div th:class="|bg-white m-2 p-4 rounded text-right w-80|">

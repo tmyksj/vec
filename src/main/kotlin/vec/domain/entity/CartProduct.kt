@@ -29,6 +29,11 @@ data class CartProduct(
     val productId: String,
 
     /**
+     * 数量
+     */
+    val quantity: Long,
+
+    /**
      * 追加日時
      */
     val addedDate: LocalDateTime,
@@ -51,4 +56,17 @@ data class CartProduct(
     @field:Version
     val version: Long? = null,
 
-    )
+    ) {
+
+    /**
+     * 数量を増やします。
+     * @param quantity 数量
+     * @return cart product
+     */
+    fun increaseQuantity(quantity: Long): CartProduct {
+        return copy(
+            quantity = this.quantity + quantity,
+        )
+    }
+
+}

@@ -56,6 +56,7 @@ class IndexController(
             addToCartCommand.perform(
                 principal = principal,
                 productId = checkNotNull(indexForm.productId),
+                quantity = 1L,
             )
         }.map {
             Rendering.redirectTo("/cart")

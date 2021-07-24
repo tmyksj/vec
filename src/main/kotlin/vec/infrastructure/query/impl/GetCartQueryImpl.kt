@@ -29,6 +29,7 @@ class GetCartQueryImpl(
                            product.tax             as p_tax,
                            product.total           as p_total,
                            product.stock           as p_stock,
+                           cart_product.quantity   as cp_quantity,
                            cart_product.added_date as cp_added_date
                     from cart
                              left join cart_product on cart.id = cart_product.cart_id
@@ -47,6 +48,7 @@ class GetCartQueryImpl(
                         tax = row.pick("p_tax"),
                         total = row.pick("p_total"),
                         stock = row.pick("p_stock"),
+                        quantity = row.pick("cp_quantity"),
                         addedDate = row.pick("cp_added_date"),
                     )
                 }.all()

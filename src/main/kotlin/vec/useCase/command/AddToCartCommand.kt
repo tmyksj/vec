@@ -12,12 +12,14 @@ interface AddToCartCommand {
     /**
      * @param principal principal
      * @param productId 商品 ID
+     * @param quantity 数量
      * @return 追加した商品
      * @throws ProductIsNotFoundException
      */
     fun perform(
         principal: User,
         productId: String,
+        quantity: Long,
     ): Mono<CartProduct>
 
     class ProductIsNotFoundException : RuntimeException()
