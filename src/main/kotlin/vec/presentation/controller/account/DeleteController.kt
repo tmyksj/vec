@@ -12,38 +12,40 @@ import org.springframework.web.server.ServerWebExchange
 import org.springframework.web.server.ServerWebInputException
 import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.onErrorResume
-import reactor.kotlin.core.publisher.toMono
 import vec.domain.entity.User
+import vec.presentation.component.RenderingComponent
 import vec.presentation.form.account.DeleteForm
 import vec.useCase.command.UnregisterUserCommand
 import vec.useCase.service.PrincipalService
 
 @Controller
 class DeleteController(
+    private val renderingComponent: RenderingComponent,
     private val unregisterUserCommand: UnregisterUserCommand,
     private val principalService: PrincipalService,
 ) {
 
     @RequestMapping(method = [RequestMethod.GET], path = ["/account/delete"])
     fun get(
+        serverWebExchange: ServerWebExchange,
         @AuthenticationPrincipal principal: User,
         deleteForm: DeleteForm,
     ): Mono<Rendering> {
-        return Mono.fromCallable {
-            Rendering.view("layout/default")
+        return Mono.defer {
+            renderingComponent.view("layout/default")
                 .modelAttribute("principal", principal)
                 .modelAttribute("template", "template/account/delete")
                 .status(HttpStatus.OK)
-                .build()
+                .build(serverWebExchange)
         }
     }
 
     @RequestMapping(method = [RequestMethod.POST], path = ["/account/delete"])
     fun post(
+        serverWebExchange: ServerWebExchange,
         @AuthenticationPrincipal principal: User,
         @Validated deleteForm: DeleteForm,
         bindingResult: BindingResult,
-        serverWebExchange: ServerWebExchange,
     ): Mono<Rendering> {
         return Mono.defer {
             if (bindingResult.hasErrors()) {
@@ -55,17 +57,16 @@ class DeleteController(
             )
         }.flatMap {
             principalService.clear(serverWebExchange)
-        }.map {
-            Rendering.redirectTo("/account-delete")
+        }.flatMap {
+            renderingComponent.redirect("/account-delete")
                 .status(HttpStatus.SEE_OTHER)
-                .build()
+                .build(serverWebExchange)
         }.onErrorResume(ServerWebInputException::class) {
-            Rendering.view("layout/default")
+            renderingComponent.view("layout/default")
                 .modelAttribute("principal", principal)
                 .modelAttribute("template", "template/account/delete")
                 .status(HttpStatus.BAD_REQUEST)
-                .build()
-                .toMono()
+                .build(serverWebExchange)
         }
     }
 
