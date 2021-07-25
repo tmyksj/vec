@@ -64,6 +64,7 @@ class IndexController(
             )
         }.flatMap {
             renderingComponent.redirect("/cart")
+                .redirectAttribute("info", "vec.presentation.controller.cart.IndexController.post.ok")
                 .status(HttpStatus.SEE_OTHER)
                 .build(serverWebExchange)
         }.onErrorMap(ServerWebInputException::class) {

@@ -80,6 +80,7 @@ class IndexController(
             )
         }.flatMap {
             renderingComponent.redirect("/sign-in")
+                .redirectAttribute("info", "vec.presentation.controller.signUp.IndexController.post.ok")
                 .status(HttpStatus.SEE_OTHER)
                 .build(serverWebExchange)
         }.onErrorResume(ServerWebInputException::class) {

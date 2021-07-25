@@ -61,6 +61,7 @@ class EmailController(
             principalService.reload(serverWebExchange)
         }.flatMap {
             renderingComponent.redirect("/account")
+                .redirectAttribute("info", "vec.presentation.controller.account.EmailController.post.ok")
                 .status(HttpStatus.SEE_OTHER)
                 .build(serverWebExchange)
         }.onErrorResume(ServerWebInputException::class) {

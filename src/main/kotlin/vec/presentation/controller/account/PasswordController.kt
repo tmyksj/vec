@@ -68,6 +68,7 @@ class PasswordController(
             principalService.reload(serverWebExchange)
         }.flatMap {
             renderingComponent.redirect("/account")
+                .redirectAttribute("info", "vec.presentation.controller.account.PasswordController.post.ok")
                 .status(HttpStatus.SEE_OTHER)
                 .build(serverWebExchange)
         }.onErrorResume(ServerWebInputException::class) {
