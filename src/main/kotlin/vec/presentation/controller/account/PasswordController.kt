@@ -12,38 +12,40 @@ import org.springframework.web.server.ServerWebExchange
 import org.springframework.web.server.ServerWebInputException
 import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.onErrorResume
-import reactor.kotlin.core.publisher.toMono
 import vec.domain.entity.User
+import vec.presentation.component.RenderingComponent
 import vec.presentation.form.account.PasswordForm
 import vec.useCase.command.ModifyUserPasswordCommand
 import vec.useCase.service.PrincipalService
 
 @Controller
 class PasswordController(
+    private val renderingComponent: RenderingComponent,
     private val modifyUserPasswordCommand: ModifyUserPasswordCommand,
     private val principalService: PrincipalService,
 ) {
 
     @RequestMapping(method = [RequestMethod.GET], path = ["/account/password"])
     fun get(
+        serverWebExchange: ServerWebExchange,
         @AuthenticationPrincipal principal: User,
         passwordForm: PasswordForm,
     ): Mono<Rendering> {
-        return Mono.fromCallable {
-            Rendering.view("layout/default")
+        return Mono.defer {
+            renderingComponent.view("layout/default")
                 .modelAttribute("principal", principal)
                 .modelAttribute("template", "template/account/password")
                 .status(HttpStatus.OK)
-                .build()
+                .build(serverWebExchange)
         }
     }
 
     @RequestMapping(method = [RequestMethod.POST], path = ["/account/password"])
     fun post(
+        serverWebExchange: ServerWebExchange,
         @AuthenticationPrincipal principal: User,
         @Validated passwordForm: PasswordForm,
         bindingResult: BindingResult,
-        serverWebExchange: ServerWebExchange,
     ): Mono<Rendering> {
         return Mono.defer {
             if (passwordForm.newPassword != passwordForm.newPasswordConfirmation) {
@@ -64,29 +66,28 @@ class PasswordController(
             )
         }.flatMap {
             principalService.reload(serverWebExchange)
-        }.map {
-            Rendering.redirectTo("/account")
+        }.flatMap {
+            renderingComponent.redirect("/account")
+                .redirectAttribute("info", "vec.presentation.controller.account.PasswordController.post.ok")
                 .status(HttpStatus.SEE_OTHER)
-                .build()
+                .build(serverWebExchange)
         }.onErrorResume(ServerWebInputException::class) {
-            Rendering.view("layout/default")
+            renderingComponent.view("layout/default")
                 .modelAttribute("principal", principal)
                 .modelAttribute("template", "template/account/password")
                 .status(HttpStatus.BAD_REQUEST)
-                .build()
-                .toMono()
+                .build(serverWebExchange)
         }.onErrorResume(ModifyUserPasswordCommand.PasswordMismatchesException::class) {
             bindingResult.rejectValue(
                 "currentPassword",
                 "vec.presentation.form.account.PasswordForm.currentPassword.mismatch",
             )
 
-            Rendering.view("layout/default")
+            renderingComponent.view("layout/default")
                 .modelAttribute("principal", principal)
                 .modelAttribute("template", "template/account/password")
                 .status(HttpStatus.BAD_REQUEST)
-                .build()
-                .toMono()
+                .build(serverWebExchange)
         }
     }
 

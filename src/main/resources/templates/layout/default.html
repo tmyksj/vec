@@ -72,6 +72,18 @@
                th:text="|プライバシーポリシー|"></a>
         </footer>
     </div>
+    <div th:class="|fixed right-0 top-12 w-96|"
+         th:if="${info != null || warn != null || error != null}">
+        <p th:class="|bg-blue-200 mr-2 my-2 px-4 py-1 rounded text-blue-900|"
+           th:if="${info != null}"
+           th:text="#{${info}}"></p>
+        <p th:class="|bg-yellow-200 mr-2 my-2 px-4 py-1 rounded text-yellow-900|"
+           th:if="${warn != null}"
+           th:text="#{${warn}"></p>
+        <p th:class="|bg-red-200 mr-2 my-2 px-4 py-1 rounded text-red-900|"
+           th:if="${error != null}"
+           th:text="#{${error}}"></p>
+    </div>
     <script th:inline="javascript">
         window.vec.mixin({
             data() {

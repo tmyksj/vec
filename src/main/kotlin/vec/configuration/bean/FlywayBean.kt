@@ -16,9 +16,9 @@ class FlywayBean(
             Flyway.configure()
                 .baselineOnMigrate(true)
                 .dataSource(
-                    environment.getRequiredProperty("spring.flyway.url"),
-                    environment.getRequiredProperty("spring.flyway.user"),
-                    environment.getRequiredProperty("spring.flyway.password"),
+                    environment.getRequiredProperty("spring.r2dbc.url").replace("r2dbc", "jdbc"),
+                    environment.getRequiredProperty("spring.r2dbc.username"),
+                    environment.getRequiredProperty("spring.r2dbc.password"),
                 )
         )
     }
