@@ -4,12 +4,13 @@
         th:text="|注文履歴|"></h2>
     <div th:class="|flex|">
         <div th:class="|flex-1|">
-            <div th:class="|bg-white m-2 p-4 rounded text-lg|"
-                 th:each="order : ${orderList}">
+            <a th:class="|bg-white block m-2 p-4 rounded text-lg|"
+               th:each="order : ${orderList}"
+               th:href="@{/order/{id}(id=${order.id})}">
                 <p th:text="${#temporals.format(order.orderedDate)}"></p>
                 <p th:class="|text-sm|"
                    th:text="|¥ ${order.total} (税込)|"></p>
-            </div>
+            </a>
         </div>
     </div>
 </main>

@@ -9,6 +9,7 @@ import org.springframework.data.repository.reactive.ReactiveCrudRepository
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 import vec.domain.entity.Order
 import java.time.LocalDateTime
 
@@ -17,6 +18,8 @@ import java.time.LocalDateTime
 interface OrderRepositoryImplProxy : ReactiveCrudRepository<OrderRepositoryImplProxy.Entity, String> {
 
     fun findAllByUserId(userId: String): Flux<Entity>
+
+    fun findByIdAndUserId(id: String, userId: String): Mono<Entity>
 
     @Table(value = "`order`")
     data class Entity(

@@ -1,0 +1,43 @@
+<main th:class="|mb-40 mt-8 mx-auto w-11/12|"
+      xmlns:th="http://www.thymeleaf.org">
+    <h2 th:class="|text-xl|"
+        th:text="|注文|"></h2>
+    <div th:class="|flex|">
+        <div th:class="|flex-1|">
+            <div th:class="|bg-white m-2 p-4 rounded text-lg|"
+                 th:v-for="|orderProduct in orderProductList|">
+                <p th:text="|{{orderProduct.productName}}|"></p>
+                <div th:class="|flex justify-between|">
+                    <p th:class="|text-sm|"
+                       th:text="|¥ {{orderProduct.productTotal}} (税込)|"></p>
+                    <p th:class="|text-sm|" th:text="|{{orderProduct.quantity}} 個|"></p>
+                </div>
+            </div>
+        </div>
+        <div th:class="|bg-white flex flex-col-reverse m-2 p-4 rounded w-80|">
+            <p th:class="|text-lg text-right|"
+               th:text="|¥ {{order.total}} (税込)|"></p>
+        </div>
+    </div>
+    <script th:each="d : ${rd}"
+            th:if="${rd != null}"
+            th:inline="javascript">
+        window.vec.rd([[${d}]]);
+    </script>
+    <script>
+        window.vec.mixin({
+            computed: {
+                order() {
+                    return this.rd.find((d) => {
+                        return d.type === "OrderDto";
+                    });
+                },
+                orderProductList() {
+                    return this.rd.filter((d) => {
+                        return d.type === "OrderProductDto";
+                    });
+                },
+            },
+        });
+    </script>
+</main>

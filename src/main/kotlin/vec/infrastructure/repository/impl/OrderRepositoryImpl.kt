@@ -79,6 +79,10 @@ class OrderRepositoryImpl(
         return orderRepositoryImplProxy.findById(id).map { it.proxy() }
     }
 
+    override fun findByIdAndUserId(id: String, userId: String): Mono<Order> {
+        return orderRepositoryImplProxy.findByIdAndUserId(id, userId).map { it.proxy() }
+    }
+
     override fun <S : Order> save(entity: S): Mono<S> {
         @Suppress("UNCHECKED_CAST")
         return orderRepositoryImplProxy.save(entity.proxy()).map { it.proxy() as S }
