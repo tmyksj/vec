@@ -38,8 +38,8 @@ class IndexController(
             )
         }.flatMap {
             renderingComponent.view("layout/default")
-                .modelAttribute("cartProductList", ReactiveDataDriverContextVariable(it))
                 .modelAttribute("principal", principal)
+                .modelAttribute("rd", ReactiveDataDriverContextVariable(it))
                 .modelAttribute("template", "template/cart/index")
                 .status(HttpStatus.OK)
                 .build(serverWebExchange)

@@ -5,12 +5,12 @@
     <div th:class="|flex|">
         <div th:class="|flex-1|">
             <div th:class="|bg-white m-2 p-4 rounded text-lg|"
-                 th:each="cartProduct : ${cartProductList}">
-                <p th:text="${cartProduct.name}"></p>
+                 th:v-for="|cartProduct in cartProductList|">
+                <p th:text="|{{cartProduct.productName}}|"></p>
                 <div th:class="|flex justify-between|">
                     <p th:class="|text-sm|"
-                       th:text="|¥ ${cartProduct.total} (税込)|"></p>
-                    <p th:class="|text-sm|" th:text="|${cartProduct.quantity} 個|"></p>
+                       th:text="|¥ {{cartProduct.productTotal}} (税込)|"></p>
+                    <p th:class="|text-sm|" th:text="|{{cartProduct.quantity}} 個|"></p>
                 </div>
             </div>
         </div>
@@ -23,4 +23,19 @@
             </form>
         </div>
     </div>
+    <script th:each="d : ${rd}"
+            th:inline="javascript">
+        window.vec.rd([[${d}]]);
+    </script>
+    <script th:inline="javascript">
+        window.vec.mixin({
+            computed: {
+                cartProductList() {
+                    return this.rd.filter((d) => {
+                        return d.type === "CartProductDto";
+                    });
+                },
+            },
+        });
+    </script>
 </main>

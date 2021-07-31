@@ -1,8 +1,8 @@
 package vec.useCase.query
 
 import reactor.core.publisher.Mono
-import vec.domain.entity.PrivacyPolicy
 import vec.domain.entity.User
+import vec.useCase.dto.PrivacyPolicyDto
 
 /**
  * プライバシーポリシーを取得します。
@@ -15,6 +15,6 @@ interface GetPrivacyPolicyQuery {
      */
     fun perform(
         principal: User?,
-    ): Mono<PrivacyPolicy>
+    ): Mono<PrivacyPolicyDto>
 
 }

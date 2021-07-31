@@ -1,8 +1,8 @@
 package vec.useCase.command
 
 import reactor.core.publisher.Mono
-import vec.domain.entity.CartProduct
 import vec.domain.entity.User
+import vec.useCase.dto.CartProductDto
 
 /**
  * カートに商品を追加します。
@@ -20,7 +20,7 @@ interface AddToCartCommand {
         principal: User,
         productId: String,
         quantity: Long,
-    ): Mono<CartProduct>
+    ): Mono<CartProductDto>
 
     class ProductIsNotFoundException : RuntimeException()
 

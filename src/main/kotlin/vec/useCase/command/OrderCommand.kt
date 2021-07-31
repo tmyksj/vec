@@ -1,8 +1,8 @@
 package vec.useCase.command
 
 import reactor.core.publisher.Mono
-import vec.domain.entity.Order
 import vec.domain.entity.User
+import vec.useCase.dto.OrderDto
 
 /**
  * カートの商品を注文します。
@@ -15,7 +15,7 @@ interface OrderCommand {
      */
     fun perform(
         principal: User,
-    ): Mono<Order>
+    ): Mono<OrderDto>
 
     class CartIsEmptyException : RuntimeException()
 

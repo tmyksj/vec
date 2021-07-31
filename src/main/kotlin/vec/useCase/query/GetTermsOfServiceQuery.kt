@@ -1,8 +1,8 @@
 package vec.useCase.query
 
 import reactor.core.publisher.Mono
-import vec.domain.entity.TermsOfService
 import vec.domain.entity.User
+import vec.useCase.dto.TermsOfServiceDto
 
 /**
  * 利用規約を取得します。
@@ -15,6 +15,6 @@ interface GetTermsOfServiceQuery {
      */
     fun perform(
         principal: User?,
-    ): Mono<TermsOfService>
+    ): Mono<TermsOfServiceDto>
 
 }

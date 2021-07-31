@@ -1,8 +1,8 @@
 package vec.useCase.query
 
 import reactor.core.publisher.Flux
-import vec.domain.entity.Order
 import vec.domain.entity.User
+import vec.useCase.dto.OrderDto
 
 /**
  * 注文のリストを返します。
@@ -15,6 +15,6 @@ interface GetOrderListQuery {
      */
     fun perform(
         principal: User,
-    ): Flux<Order>
+    ): Flux<OrderDto>
 
 }
