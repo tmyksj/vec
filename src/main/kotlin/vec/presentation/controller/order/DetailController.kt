@@ -32,7 +32,7 @@ class DetailController(
         @Validated detailForm: DetailForm,
         bindingResult: BindingResult,
     ): Mono<Rendering> {
-        return Mono.fromCallable {
+        return Mono.defer {
             if (bindingResult.hasErrors()) {
                 throw ServerWebInputException(bindingResult.toString())
             }

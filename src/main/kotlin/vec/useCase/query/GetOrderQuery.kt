@@ -1,6 +1,7 @@
 package vec.useCase.query
 
 import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 import vec.domain.entity.User
 import vec.useCase.dto.OrderDto
 import vec.useCase.dto.OrderProductDto
@@ -18,7 +19,7 @@ interface GetOrderQuery {
     fun perform(
         principal: User,
         id: String,
-    ): Flux<Any>
+    ): Mono<Flux<Any>>
 
     class OrderIsNotFoundException : RuntimeException()
 

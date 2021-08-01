@@ -22,12 +22,12 @@ class GetOrderQueryImpl(
     override fun perform(
         principal: User,
         id: String,
-    ): Flux<Any> {
+    ): Mono<Flux<Any>> {
         return Mono.defer {
             orderRepository.findByIdAndUserId(id, principal.id)
         }.switchIfEmpty {
             throw GetOrderQuery.OrderIsNotFoundException()
-        }.flatMapMany { order ->
+        }.map { order ->
             Flux.merge(
                 Mono.just(
                     OrderDto(

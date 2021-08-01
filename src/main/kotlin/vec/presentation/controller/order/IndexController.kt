@@ -27,7 +27,7 @@ class IndexController(
         serverWebExchange: ServerWebExchange,
         @AuthenticationPrincipal principal: User,
     ): Mono<Rendering> {
-        return Mono.fromCallable {
+        return Mono.defer {
             getOrderListQuery.perform(
                 principal = principal,
             )

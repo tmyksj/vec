@@ -1,6 +1,7 @@
 package vec.useCase.query
 
 import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 import vec.domain.entity.User
 import vec.useCase.dto.ProductDto
 
@@ -15,6 +16,6 @@ interface GetProductListQuery {
      */
     fun perform(
         principal: User?,
-    ): Flux<ProductDto>
+    ): Mono<Flux<ProductDto>>
 
 }

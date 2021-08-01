@@ -5,6 +5,7 @@ import org.springframework.r2dbc.core.DatabaseClient
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 import vec.domain.entity.User
 import vec.domain.repository.CartRepository
 import vec.useCase.dto.CartDto
@@ -20,8 +21,8 @@ class GetCartQueryImpl(
 
     override fun perform(
         principal: User,
-    ): Flux<out Any> {
-        return Flux.defer {
+    ): Mono<Flux<Any>> {
+        return Mono.fromCallable {
             Flux.merge(
                 cartRepository.findByUserId(principal.id)
                     .map {

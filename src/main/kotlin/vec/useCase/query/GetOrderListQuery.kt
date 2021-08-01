@@ -1,6 +1,7 @@
 package vec.useCase.query
 
 import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 import vec.domain.entity.User
 import vec.useCase.dto.OrderDto
 
@@ -15,6 +16,6 @@ interface GetOrderListQuery {
      */
     fun perform(
         principal: User,
-    ): Flux<OrderDto>
+    ): Mono<Flux<OrderDto>>
 
 }
