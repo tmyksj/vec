@@ -28,6 +28,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("org.thymeleaf.extras:thymeleaf-extras-java8time")
     implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity5")
     runtimeOnly("org.mariadb:r2dbc-mariadb")
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client")

@@ -8,9 +8,9 @@ import java.time.LocalDateTime
 import java.util.*
 
 /**
- * カートにある商品
+ * 注文
  */
-data class CartProduct(
+data class Order(
 
     /**
      * ID
@@ -19,24 +19,29 @@ data class CartProduct(
     val id: String = UUID.randomUUID().toString(),
 
     /**
-     * カート ID
+     * ユーザ ID
      */
-    val cartId: String,
+    val userId: String,
 
     /**
-     * 商品 ID
+     * 金額（ JPY ）
      */
-    val productId: String,
+    val amount: Long,
 
     /**
-     * 数量
+     * 税額（ JPY ）
      */
-    val quantity: Long,
+    val tax: Long,
 
     /**
-     * 追加日時
+     * 総額（ JPY ）
      */
-    val addedDate: LocalDateTime,
+    val total: Long,
+
+    /**
+     * 注文日時
+     */
+    val orderedDate: LocalDateTime,
 
     /**
      * 作成日時
@@ -56,17 +61,4 @@ data class CartProduct(
     @field:Version
     val version: Long? = null,
 
-    ) {
-
-    /**
-     * 数量を増やします。
-     * @param quantity 数量
-     * @return cart product
-     */
-    fun increaseQuantity(quantity: Long): CartProduct {
-        return copy(
-            quantity = this.quantity + quantity,
-        )
-    }
-
-}
+    )

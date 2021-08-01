@@ -17,6 +17,7 @@ class SecurityWebFilterChainBean {
             .pathMatchers("/cart/**").hasAnyRole("CONSUMER")
             .pathMatchers("/css/**").permitAll()
             .pathMatchers("/js/**").permitAll()
+            .pathMatchers("/order/**").hasAnyRole("CONSUMER")
             .pathMatchers("/privacy-policy/**").permitAll()
             .pathMatchers("/product/**").permitAll()
             .pathMatchers("/sign-in/**").permitAll()

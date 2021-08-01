@@ -32,14 +32,14 @@ class IndexController(
         serverWebExchange: ServerWebExchange,
         @AuthenticationPrincipal principal: User,
     ): Mono<Rendering> {
-        return Mono.fromCallable {
+        return Mono.defer {
             getCartQuery.perform(
                 principal = principal,
             )
         }.flatMap {
             renderingComponent.view("layout/default")
-                .modelAttribute("cartProductList", ReactiveDataDriverContextVariable(it))
                 .modelAttribute("principal", principal)
+                .modelAttribute("rd", ReactiveDataDriverContextVariable(it))
                 .modelAttribute("template", "template/cart/index")
                 .status(HttpStatus.OK)
                 .build(serverWebExchange)
@@ -61,6 +61,7 @@ class IndexController(
             addToCartCommand.perform(
                 principal = principal,
                 productId = checkNotNull(indexForm.productId),
+                quantity = 1L,
             )
         }.flatMap {
             renderingComponent.redirect("/cart")

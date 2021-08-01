@@ -4,11 +4,11 @@ import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.switchIfEmpty
-import vec.domain.entity.CartProduct
 import vec.domain.entity.User
 import vec.domain.repository.ProductRepository
 import vec.domain.service.ECommerceCartService
 import vec.useCase.command.AddToCartCommand
+import vec.useCase.dto.CartProductDto
 
 @Component
 @Transactional
@@ -20,13 +20,29 @@ class AddToCartCommandImpl(
     override fun perform(
         principal: User,
         productId: String,
-    ): Mono<CartProduct> {
+        quantity: Long,
+    ): Mono<CartProductDto> {
         return Mono.defer {
             productRepository.findById(productId)
         }.switchIfEmpty {
             throw AddToCartCommand.ProductIsNotFoundException()
-        }.flatMap {
-            eCommerceCartService.add(principal, it)
+        }.flatMap { product ->
+            eCommerceCartService.add(principal, product, quantity)
+                .map {
+                    CartProductDto(
+                        id = it.id,
+                        productId = product.id,
+                        productName = product.name,
+                        productDescription = product.description,
+                        productAmount = product.amount,
+                        productTaxRate = product.taxRate,
+                        productTax = product.tax,
+                        productTotal = product.total,
+                        productStock = product.stock,
+                        quantity = it.quantity,
+                        addedDate = it.addedDate,
+                    )
+                }
         }
     }
 

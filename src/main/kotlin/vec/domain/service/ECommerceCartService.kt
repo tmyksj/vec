@@ -14,8 +14,9 @@ interface ECommerceCartService {
      * ユーザのカートに商品を追加します。
      * @param user ユーザ
      * @param product 商品
+     * @param quantity 数量
      * @return 追加した商品
      */
-    fun add(user: User, product: Product): Mono<CartProduct>
+    fun add(user: User, product: Product, quantity: Long): Mono<CartProduct>
 
 }

@@ -5,31 +5,29 @@ import org.springframework.transaction.annotation.Transactional
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import vec.domain.entity.User
-import vec.domain.repository.ProductRepository
-import vec.useCase.dto.ProductDto
-import vec.useCase.query.GetProductListQuery
+import vec.domain.repository.OrderRepository
+import vec.useCase.dto.OrderDto
+import vec.useCase.query.GetOrderListQuery
 
 @Component
 @Transactional
-class GetProductListQueryImpl(
-    private val productRepository: ProductRepository,
-) : GetProductListQuery {
+class GetOrderListQueryImpl(
+    private val orderRepository: OrderRepository,
+) : GetOrderListQuery {
 
     override fun perform(
-        principal: User?,
-    ): Mono<Flux<ProductDto>> {
+        principal: User,
+    ): Mono<Flux<OrderDto>> {
         return Mono.fromCallable {
-            productRepository.findAll()
+            orderRepository.findAllByUserId(principal.id)
                 .map {
-                    ProductDto(
+                    OrderDto(
                         id = it.id,
-                        name = it.name,
-                        description = it.description,
+                        userId = it.userId,
                         amount = it.amount,
-                        taxRate = it.taxRate,
                         tax = it.tax,
                         total = it.total,
-                        stock = it.stock,
+                        orderedDate = it.orderedDate,
                     )
                 }
         }

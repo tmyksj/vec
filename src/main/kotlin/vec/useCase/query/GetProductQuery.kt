@@ -1,8 +1,8 @@
 package vec.useCase.query
 
 import reactor.core.publisher.Mono
-import vec.domain.entity.Product
 import vec.domain.entity.User
+import vec.useCase.dto.ProductDto
 
 /**
  * 商品を取得します。
@@ -18,7 +18,7 @@ interface GetProductQuery {
     fun perform(
         principal: User?,
         id: String,
-    ): Mono<Product>
+    ): Mono<ProductDto>
 
     class ProductIsNotFoundException : RuntimeException()
 

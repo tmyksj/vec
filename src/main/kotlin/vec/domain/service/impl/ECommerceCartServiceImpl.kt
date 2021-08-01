@@ -24,7 +24,7 @@ class ECommerceCartServiceImpl(
     private val securityService: SecurityService,
 ) : ECommerceCartService {
 
-    override fun add(user: User, product: Product): Mono<CartProduct> {
+    override fun add(user: User, product: Product, quantity: Long): Mono<CartProduct> {
         return Mono.defer {
             securityService.requireRoleConsumer(user)
         }.flatMap {
@@ -39,13 +39,21 @@ class ECommerceCartServiceImpl(
                     )
                 }
         }.flatMap {
-            cartProductRepository.save(
-                CartProduct(
-                    cartId = it.id,
-                    productId = product.id,
-                    addedDate = LocalDateTime.now(),
-                )
-            )
+            cartProductRepository.findByCartIdAndProductId(it.id, product.id)
+                .switchIfEmpty {
+                    Mono.just(
+                        CartProduct(
+                            cartId = it.id,
+                            productId = product.id,
+                            quantity = 0L,
+                            addedDate = LocalDateTime.now(),
+                        )
+                    )
+                }
+        }.map {
+            it.increaseQuantity(quantity)
+        }.flatMap {
+            cartProductRepository.save(it)
         }
     }
 

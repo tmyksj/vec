@@ -15,11 +15,11 @@ class ProductFactory {
     fun create(
         name: String = "name",
         description: String = "description",
-        amount: Long = 1000,
+        amount: Long = 1000L,
         taxRate: BigDecimal = BigDecimal("0.10"),
         tax: Long = BigDecimal(amount).multiply(taxRate).toLong(),
         total: Long = amount + tax,
-        stock: Long = 10,
+        stock: Long = 10L,
     ): Product {
         return checkNotNull(
             productRepository.save(

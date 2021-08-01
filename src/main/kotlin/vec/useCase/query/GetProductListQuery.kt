@@ -1,8 +1,9 @@
 package vec.useCase.query
 
 import reactor.core.publisher.Flux
-import vec.domain.entity.Product
+import reactor.core.publisher.Mono
 import vec.domain.entity.User
+import vec.useCase.dto.ProductDto
 
 /**
  * 注目の商品のリストを取得します。
@@ -15,6 +16,6 @@ interface GetProductListQuery {
      */
     fun perform(
         principal: User?,
-    ): Flux<Product>
+    ): Mono<Flux<ProductDto>>
 
 }

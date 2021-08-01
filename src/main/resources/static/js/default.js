@@ -1,7 +1,13 @@
 let Vue = null;
 
 window.vec = {
-    mixins: [],
+    mixins: [
+        {
+            data: {
+                rd: [],
+            },
+        },
+    ],
 
     main() {
         document.querySelectorAll("#v-app script").forEach((value) => {
@@ -13,6 +19,10 @@ window.vec = {
 
     mixin(mixin) {
         this.mixins.push(mixin);
+    },
+
+    rd(data) {
+        this.mixins[0].data.rd.push(data);
     },
 };
 
