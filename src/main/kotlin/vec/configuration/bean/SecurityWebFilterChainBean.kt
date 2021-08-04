@@ -14,6 +14,7 @@ class SecurityWebFilterChainBean {
             .pathMatchers("/").permitAll()
             .pathMatchers("/account/**").hasAnyRole("ADMIN", "CONSUMER")
             .pathMatchers("/account-delete/**").permitAll()
+            .pathMatchers("/admin/**").hasAnyRole("ADMIN")
             .pathMatchers("/cart/**").hasAnyRole("CONSUMER")
             .pathMatchers("/css/**").permitAll()
             .pathMatchers("/js/**").permitAll()

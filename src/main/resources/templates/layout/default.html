@@ -35,19 +35,27 @@
                 <div th:class="|bg-white fixed p-4 right-4 shadow top-16 w-80|"
                      th:v-bind:class="|{ hidden: !accountMenu }|"
                      th:v-on:click.stop="|openAccountMenu|">
-                    <p>
-                        <a th:class="|text-blue-800|"
-                           th:href="@{/cart}"
-                           th:if="${principal.hasRoleConsumer}"
-                           th:text="|カート|"></a>
-                    </p>
-                    <p>
-                        <a th:class="|text-blue-800|"
-                           th:href="@{/order}"
-                           th:if="${principal.hasRoleConsumer}"
-                           th:text="|注文履歴|"></a>
-                    </p>
-                    <hr th:class="|my-2|">
+                    <th:block th:if="${principal.hasRoleAdmin}">
+                        <p>
+                            <a th:class="|text-blue-800|"
+                               th:href="@{/admin}"
+                               th:text="|管理画面|"></a>
+                        </p>
+                        <hr th:class="|my-2|">
+                    </th:block>
+                    <th:block th:if="${principal.hasRoleConsumer}">
+                        <p>
+                            <a th:class="|text-blue-800|"
+                               th:href="@{/cart}"
+                               th:text="|カート|"></a>
+                        </p>
+                        <p>
+                            <a th:class="|text-blue-800|"
+                               th:href="@{/order}"
+                               th:text="|注文履歴|"></a>
+                        </p>
+                        <hr th:class="|my-2|">
+                    </th:block>
                     <p>
                         <a th:class="|text-blue-800|"
                            th:href="@{/account}"

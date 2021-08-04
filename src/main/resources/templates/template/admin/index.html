@@ -1,0 +1,31 @@
+<main th:class="|mb-40 mt-8 mx-auto w-11/12|"
+      xmlns:th="http://www.thymeleaf.org">
+    <div th:class="|mt-8|">
+        <h2 th:class="|text-xl|"
+            th:text="|管理画面|"></h2>
+        <div th:class="|flex flex-wrap|">
+            <div th:class="|bg-white m-2 p-4 rounded text-lg w-64|">
+                <h3 th:class="|text-sm|"
+                    th:text="|消費者ユーザ数|"></h3>
+                <p th:class="|text-lg text-right|"
+                   th:text="${usageStatistics.consumerCount}"></p>
+            </div>
+            <div th:class="|bg-white m-2 p-4 rounded text-lg w-64|">
+                <h3 th:class="|text-sm|"
+                    th:text="|商品数|"></h3>
+                <p th:class="|text-lg text-right|"
+                   th:text="${usageStatistics.productCount}"></p>
+            </div>
+            <div th:class="|bg-white m-2 p-4 rounded text-lg w-64|">
+                <h3 th:class="|text-sm|"
+                    th:text="|注文数|"></h3>
+                <p th:class="|text-lg text-right|"
+                   th:text="${usageStatistics.orderCount}"></p>
+            </div>
+        </div>
+    </div>
+    <div th:class="|mt-8|">
+        <h2 th:class="|text-xl|"
+            th:text="|リンク|"></h2>
+    </div>
+</main>

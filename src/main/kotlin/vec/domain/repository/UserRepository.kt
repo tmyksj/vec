@@ -16,6 +16,13 @@ interface UserRepository : ReactiveCrudRepository<User, String> {
     fun countByHasRoleAdmin(hasRoleAdmin: Boolean): Mono<Long>
 
     /**
+     * 消費者ユーザの役割を持つ（ないし、持たない）ユーザの数を返します。
+     * @param hasRoleConsumer 消費者ユーザの役割を持つかどうか
+     * @return ユーザの数
+     */
+    fun countByHasRoleConsumer(hasRoleConsumer: Boolean): Mono<Long>
+
+    /**
      * ユーザを返します。
      * @param email メールアドレス
      * @return ユーザ
