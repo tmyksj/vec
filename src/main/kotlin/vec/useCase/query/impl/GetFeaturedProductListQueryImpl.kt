@@ -7,13 +7,13 @@ import reactor.core.publisher.Mono
 import vec.domain.entity.User
 import vec.domain.repository.ProductRepository
 import vec.useCase.dto.ProductDto
-import vec.useCase.query.GetProductListQuery
+import vec.useCase.query.GetFeaturedProductListQuery
 
 @Component
 @Transactional
-class GetProductListQueryImpl(
+class GetFeaturedProductListQueryImpl(
     private val productRepository: ProductRepository,
-) : GetProductListQuery {
+) : GetFeaturedProductListQuery {
 
     override fun perform(
         principal: User?,

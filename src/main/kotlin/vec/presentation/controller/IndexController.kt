@@ -11,12 +11,12 @@ import org.thymeleaf.spring5.context.webflux.ReactiveDataDriverContextVariable
 import reactor.core.publisher.Mono
 import vec.domain.entity.User
 import vec.presentation.component.RenderingComponent
-import vec.useCase.query.GetProductListQuery
+import vec.useCase.query.GetFeaturedProductListQuery
 
 @Controller
 class IndexController(
     private val renderingComponent: RenderingComponent,
-    private val getProductListQuery: GetProductListQuery,
+    private val getFeaturedProductListQuery: GetFeaturedProductListQuery,
 ) {
 
     @RequestMapping(method = [RequestMethod.GET], path = ["/"])
@@ -25,7 +25,7 @@ class IndexController(
         @AuthenticationPrincipal principal: User?,
     ): Mono<Rendering> {
         return Mono.defer {
-            getProductListQuery.perform(
+            getFeaturedProductListQuery.perform(
                 principal = principal,
             )
         }.flatMap {

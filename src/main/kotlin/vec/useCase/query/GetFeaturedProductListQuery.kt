@@ -8,7 +8,7 @@ import vec.useCase.dto.ProductDto
 /**
  * 注目の商品のリストを取得します。
  */
-interface GetProductListQuery {
+interface GetFeaturedProductListQuery {
 
     /**
      * @param principal principal
