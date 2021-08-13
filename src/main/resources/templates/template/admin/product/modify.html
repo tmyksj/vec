@@ -1,0 +1,68 @@
+<main th:class="|mb-40 mt-8 mx-auto w-11/12|"
+      xmlns:th="http://www.thymeleaf.org">
+    <div th:class="|mt-16 mx-auto w-5/12|">
+        <form th:action="@{/admin/product/{id}/modify(id=${modifyForm.id})}"
+              th:method="|post|"
+              th:object="${modifyForm}">
+            <span th:class="|block text-gray-600 text-sm|"
+                  th:text="|ID: ${modifyForm.id}|"></span>
+            <div th:class="|mt-4|">
+                <label th:class="|block mb-1 text-gray-600 text-sm|"
+                       th:for="|name|"
+                       th:text="|商品名|"></label>
+                <input th:autofocus="|autofocus|"
+                       th:class="|border border-gray-300 focus:border-yellow-500 focus:outline-none h-9 px-4 rounded w-full|"
+                       th:field="*{name}"
+                       th:type="|text|">
+                <p th:class="|mt-1 text-red-800 text-xs|"
+                   th:errors="*{name}"></p>
+            </div>
+            <div th:class="|mt-4|">
+                <label th:class="|block mb-1 text-gray-600 text-sm|"
+                       th:for="|description|"
+                       th:text="|商品の説明|"></label>
+                <textarea
+                        th:class="|border border-gray-300 focus:border-yellow-500 focus:outline-none h-32 px-4 py-1 rounded w-full|"
+                        th:field="*{description}"></textarea>
+                <p th:class="|text-red-800 text-xs|"
+                   th:errors="*{description}"></p>
+            </div>
+            <div th:class="|mt-4|">
+                <label th:class="|block mb-1 text-gray-600 text-sm|"
+                       th:for="|amount|"
+                       th:text="|金額|"></label>
+                <input th:class="|border border-gray-300 focus:border-yellow-500 focus:outline-none h-9 px-4 rounded w-full|"
+                       th:field="*{amount}"
+                       th:type="|number|">
+                <p th:class="|mt-1 text-red-800 text-xs|"
+                   th:errors="*{amount}"></p>
+            </div>
+            <div th:class="|mt-4|">
+                <label th:class="|block mb-1 text-gray-600 text-sm|"
+                       th:for="|taxRate|"
+                       th:text="|税率|"></label>
+                <input th:class="|border border-gray-300 focus:border-yellow-500 focus:outline-none h-9 px-4 rounded w-full|"
+                       th:field="*{taxRate}"
+                       th:step="|0.00000001|"
+                       th:type="|number|">
+                <p th:class="|mt-1 text-red-800 text-xs|"
+                   th:errors="*{taxRate}"></p>
+            </div>
+            <div th:class="|mt-4|">
+                <label th:class="|block mb-1 text-gray-600 text-sm|"
+                       th:for="|stock|"
+                       th:text="|在庫数の増減|"></label>
+                <input th:class="|border border-gray-300 focus:border-yellow-500 focus:outline-none h-9 px-4 rounded w-full|"
+                       th:field="*{stock}"
+                       th:type="|number|">
+                <p th:class="|mt-1 text-red-800 text-xs|"
+                   th:errors="*{stock}"></p>
+            </div>
+            <div th:class="|mt-6 text-right|">
+                <button th:class="|bg-yellow-500 focus:outline-none h-9 px-4 rounded text-gray-50|"
+                        th:text="|更新|"
+                        th:type="|submit|"></button>
+            </div>
+        </form>
+    </div>
+</main>

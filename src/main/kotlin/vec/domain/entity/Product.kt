@@ -75,6 +75,21 @@ data class Product(
     ) {
 
     /**
+     * 在庫数を増やします。
+     * @param stock 在庫数
+     * @return product
+     */
+    fun increaseStock(stock: Long): Product {
+        if (this.stock + stock < 0) {
+            throw StockMustBeEnoughException()
+        }
+
+        return copy(
+            stock = this.stock + stock,
+        )
+    }
+
+    /**
      * 金額を更新します。
      * @param amount 金額（ JPY ）
      * @return product
@@ -84,6 +99,28 @@ data class Product(
             amount = amount,
             tax = BigDecimal(amount).multiply(taxRate).toLong(),
             total = amount + tax,
+        )
+    }
+
+    /**
+     * 商品の説明を更新します。
+     * @param description 商品の説明
+     * @return product
+     */
+    fun modifyDescription(description: String): Product {
+        return copy(
+            description = description,
+        )
+    }
+
+    /**
+     * 商品名を更新します。
+     * @param name 商品名
+     * @return product
+     */
+    fun modifyName(name: String): Product {
+        return copy(
+            name = name,
         )
     }
 

@@ -6,13 +6,13 @@ import vec.domain.entity.User
 import vec.useCase.dto.ProductDto
 
 /**
- * 商品のリストを取得します。
+ * 注目の商品のリストを取得します。
  */
-interface GetProductListQuery {
+interface GetFeaturedProductListQuery {
 
     /**
      * @param principal principal
-     * @return 商品のリスト
+     * @return 注目の商品のリスト
      */
     fun perform(
         principal: User?,

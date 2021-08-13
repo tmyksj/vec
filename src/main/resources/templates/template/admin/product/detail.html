@@ -1,0 +1,48 @@
+<main th:class="|mb-40 mt-8 mx-auto w-11/12|"
+      xmlns:th="http://www.thymeleaf.org">
+    <div th:class="|mt-16 mx-auto w-5/12|">
+        <div th:class="|flex|">
+            <div th:class="|flex-1|">
+                <span th:class="|block text-gray-600 text-sm|"
+                      th:text="|ID: ${product.id}|"></span>
+                <h2 th:class="|text-xl|"
+                    th:text="${product.name}"></h2>
+            </div>
+            <div>
+                <a th:class="|text-blue-800|"
+                   th:href="@{/admin/product/{id}/modify(id=${product.id})}"
+                   th:text="|編集|"></a>
+            </div>
+        </div>
+        <div th:class="|mt-4|">
+            <span th:class="|block text-gray-600 text-sm|"
+                  th:text="|商品の説明|"></span>
+            <p th:text="${product.description}"></p>
+        </div>
+        <div th:class="|mt-4|">
+            <span th:class="|block text-gray-600 text-sm|"
+                  th:text="|金額|"></span>
+            <p th:text="|¥ ${product.amount}|"></p>
+        </div>
+        <div th:class="|mt-4|">
+            <span th:class="|block text-gray-600 text-sm|"
+                  th:text="|税率|"></span>
+            <p th:text="${product.taxRate}"></p>
+        </div>
+        <div th:class="|mt-4|">
+            <span th:class="|block text-gray-600 text-sm|"
+                  th:text="|税額|"></span>
+            <p th:text="|¥ ${product.tax}|"></p>
+        </div>
+        <div th:class="|mt-4|">
+            <span th:class="|block text-gray-600 text-sm|"
+                  th:text="|総額|"></span>
+            <p th:text="|¥ ${product.total}|"></p>
+        </div>
+        <div th:class="|mt-4|">
+            <span th:class="|block text-gray-600 text-sm|"
+                  th:text="|在庫数|"></span>
+            <p th:text="${product.stock}"></p>
+        </div>
+    </div>
+</main>

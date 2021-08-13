@@ -1,4 +1,4 @@
-package vec.presentation.controller
+package vec.presentation.controller.admin.product
 
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.annotation.AuthenticationPrincipal
@@ -11,28 +11,28 @@ import org.thymeleaf.spring5.context.webflux.ReactiveDataDriverContextVariable
 import reactor.core.publisher.Mono
 import vec.domain.entity.User
 import vec.presentation.component.RenderingComponent
-import vec.useCase.query.GetFeaturedProductListQuery
+import vec.useCase.query.GetProductListQuery
 
 @Controller
 class IndexController(
     private val renderingComponent: RenderingComponent,
-    private val getFeaturedProductListQuery: GetFeaturedProductListQuery,
+    private val getProductListQuery: GetProductListQuery,
 ) {
 
-    @RequestMapping(method = [RequestMethod.GET], path = ["/"])
+    @RequestMapping(method = [RequestMethod.GET], path = ["/admin/product"])
     fun get(
         serverWebExchange: ServerWebExchange,
-        @AuthenticationPrincipal principal: User?,
+        @AuthenticationPrincipal principal: User,
     ): Mono<Rendering> {
         return Mono.defer {
-            getFeaturedProductListQuery.perform(
+            getProductListQuery.perform(
                 principal = principal,
             )
         }.flatMap {
             renderingComponent.view("layout/default")
                 .modelAttribute("principal", principal)
                 .modelAttribute("productList", ReactiveDataDriverContextVariable(it))
-                .modelAttribute("template", "template/index")
+                .modelAttribute("template", "template/admin/product/index")
                 .status(HttpStatus.OK)
                 .build(serverWebExchange)
         }

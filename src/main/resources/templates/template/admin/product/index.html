@@ -1,0 +1,47 @@
+<main th:class="|mb-40 mt-8 mx-auto w-11/12|"
+      xmlns:th="http://www.thymeleaf.org">
+    <h2 th:class="|text-xl|"
+        th:text="|商品一覧|"></h2>
+    <div th:class="|text-right|">
+        <a th:class="|text-blue-800|"
+           th:href="@{/admin/product/create}"
+           th:text="|新規作成|"></a>
+    </div>
+    <table th:class="|border border-collapse border-gray-300 mt-1 w-full|">
+        <thead>
+        <tr>
+            <th th:class="|border border-gray-300 font-normal px-2 py-0.5 w-96|"
+                th:text="|ID|"></th>
+            <th th:class="|border border-gray-300 font-normal px-2 py-0.5|"
+                th:text="|商品名|"></th>
+            <th th:class="|border border-gray-300 font-normal px-2 py-0.5 w-28|"
+                th:text="|金額|"></th>
+            <th th:class="|border border-gray-300 font-normal px-2 py-0.5 w-28|"
+                th:text="|税率|"></th>
+            <th th:class="|border border-gray-300 font-normal px-2 py-0.5 w-28|"
+                th:text="|総額|"></th>
+            <th th:class="|border border-gray-300 font-normal px-2 py-0.5 w-28|"
+                th:text="|在庫数|"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product : ${productList}">
+            <td th:class="|border border-gray-300 px-2 py-0.5|">
+                <a th:class="|text-blue-800|"
+                   th:href="@{/admin/product/{id}(id=${product.id})}"
+                   th:text="${product.id}"></a>
+            </td>
+            <td th:class="|border border-gray-300 px-2 py-0.5|"
+                th:text="${product.name}"></td>
+            <td th:class="|border border-gray-300 px-2 py-0.5 text-right|"
+                th:text="${product.amount}"></td>
+            <td th:class="|border border-gray-300 px-2 py-0.5 text-right|"
+                th:text="${product.taxRate}"></td>
+            <td th:class="|border border-gray-300 px-2 py-0.5 text-right|"
+                th:text="${product.total}"></td>
+            <td th:class="|border border-gray-300 px-2 py-0.5 text-right|"
+                th:text="${product.stock}"></td>
+        </tr>
+        </tbody>
+    </table>
+</main>
