@@ -17,6 +17,18 @@ create table user
 ) engine = InnoDB
   default charset utf8mb4;
 
+create table store_agreement
+(
+    id                 varchar(36)  not null,
+    body               text         not null,
+    applied_date       timestamp(6) not null default 0,
+    created_date       timestamp(6) not null default 0,
+    last_modified_date timestamp(6) not null default 0,
+    version            bigint       not null,
+    primary key (id)
+) engine = InnoDB
+  default charset utf8mb4;
+
 create table product
 (
     id                 varchar(36)    not null,
