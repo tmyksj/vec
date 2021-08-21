@@ -1,4 +1,4 @@
-package vec.infrastructure.repository
+package vec.infrastructure.repository.impl
 
 import org.springframework.data.r2dbc.repository.Query
 import org.springframework.stereotype.Component
@@ -9,7 +9,7 @@ import vec.domain.repository.StoreAgreementRepository
 
 @Component
 @Transactional
-interface StoreAgreementRepository : StoreAgreementRepository {
+interface StoreAgreementRepositoryImpl : StoreAgreementRepository {
 
     @Query(
         value = """
