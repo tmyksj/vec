@@ -104,8 +104,8 @@ class OrderRepositoryImpl(
         return proxy.saveAll(Flux.from(entityStream).map(::convert)).map { convert(it) as S }
     }
 
-    private fun convert(source: Order): OrderRepositoryProxy.Entity {
-        return OrderRepositoryProxy.Entity(
+    private fun convert(source: Order): Entity {
+        return Entity(
             id = source.id,
             userId = source.userId,
             amount = source.amount,
@@ -118,7 +118,7 @@ class OrderRepositoryImpl(
         )
     }
 
-    private fun convert(source: OrderRepositoryProxy.Entity): Order {
+    private fun convert(source: Entity): Order {
         return Order(
             id = source.id,
             userId = source.userId,
@@ -131,16 +131,6 @@ class OrderRepositoryImpl(
             version = source.version,
         )
     }
-
-}
-
-@Component
-@Transactional
-interface OrderRepositoryProxy : ReactiveCrudRepository<OrderRepositoryProxy.Entity, String> {
-
-    fun findAllByUserId(userId: String): Flux<Entity>
-
-    fun findByIdAndUserId(id: String, userId: String): Mono<Entity>
 
     @Table(value = "`order`")
     data class Entity(
@@ -168,5 +158,15 @@ interface OrderRepositoryProxy : ReactiveCrudRepository<OrderRepositoryProxy.Ent
         val version: Long?,
 
         )
+
+}
+
+@Component
+@Transactional
+interface OrderRepositoryProxy : ReactiveCrudRepository<OrderRepositoryImpl.Entity, String> {
+
+    fun findAllByUserId(userId: String): Flux<OrderRepositoryImpl.Entity>
+
+    fun findByIdAndUserId(id: String, userId: String): Mono<OrderRepositoryImpl.Entity>
 
 }
