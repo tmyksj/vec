@@ -36,6 +36,7 @@ class UserInitializer(
                     isCredentialsExpired = false,
                     isEnabled = true,
                     hasRoleAdmin = true,
+                    hasRoleClerk = false,
                     hasRoleConsumer = false,
                 )
             ).doOnNext {

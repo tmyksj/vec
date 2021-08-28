@@ -24,6 +24,7 @@ class UserFactory {
         isCredentialsExpired: Boolean = false,
         isEnabled: Boolean = true,
         hasRoleAdmin: Boolean = false,
+        hasRoleClerk: Boolean = false,
         hasRoleConsumer: Boolean = false,
     ): User {
         return checkNotNull(
@@ -36,6 +37,7 @@ class UserFactory {
                     isCredentialsExpired = isCredentialsExpired,
                     isEnabled = isEnabled,
                     hasRoleAdmin = hasRoleAdmin,
+                    hasRoleClerk = hasRoleClerk,
                     hasRoleConsumer = hasRoleConsumer,
                 )
             ).block()
