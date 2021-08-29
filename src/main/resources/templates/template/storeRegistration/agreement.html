@@ -2,4 +2,9 @@
       xmlns:th="http://www.thymeleaf.org">
     <div th:class="|mt-16 mx-auto w-96|"
          th:utext="${body}"></div>
+    <div th:class="|mt-16 mx-auto text-right w-96|">
+        <a th:class="|bg-yellow-500 h-9 inline-flex items-center px-4 rounded text-gray-50|"
+           th:href="@{/store-registration}"
+           th:text="|店舗登録に進む|"></a>
+    </div>
 </main>
