@@ -1,9 +1,11 @@
 package vec.presentation.form.signUp
 
+import vec.presentation.validation.constraints.PasswordConfirmation
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size
 
+@PasswordConfirmation(value = "password")
 data class IndexForm(
 
     /**

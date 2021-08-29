@@ -13,6 +13,7 @@ import org.springframework.web.server.ServerWebInputException
 import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.onErrorResume
 import vec.domain.entity.User
+import vec.presentation.component.BindingResultComponent
 import vec.presentation.component.RenderingComponent
 import vec.presentation.form.account.EmailForm
 import vec.useCase.command.ModifyUserEmailCommand
@@ -20,6 +21,7 @@ import vec.useCase.service.PrincipalService
 
 @Controller
 class EmailController(
+    private val bindingResultComponent: BindingResultComponent,
     private val renderingComponent: RenderingComponent,
     private val modifyUserEmailCommand: ModifyUserEmailCommand,
     private val principalService: PrincipalService,
@@ -61,7 +63,7 @@ class EmailController(
             principalService.reload(serverWebExchange)
         }.flatMap {
             renderingComponent.redirect("/account")
-                .redirectAttribute("info", "vec.presentation.controller.account.EmailController.post.ok")
+                .redirectAttribute("info", "${this::class.qualifiedName}.post.ok")
                 .status(HttpStatus.SEE_OTHER)
                 .build(serverWebExchange)
         }.onErrorResume(ServerWebInputException::class) {
@@ -71,7 +73,7 @@ class EmailController(
                 .status(HttpStatus.BAD_REQUEST)
                 .build(serverWebExchange)
         }.onErrorResume(ModifyUserEmailCommand.EmailIsAlreadyInUseException::class) {
-            bindingResult.rejectValue("email", "vec.presentation.form.account.EmailForm.email.alreadyInUse")
+            bindingResultComponent.rejectValue(bindingResult, "email", "alreadyInUse")
 
             renderingComponent.view("layout/default")
                 .modelAttribute("principal", principal)
