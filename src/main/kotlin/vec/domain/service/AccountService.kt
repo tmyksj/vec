@@ -39,6 +39,7 @@ interface AccountService {
      * @param email メールアドレス
      * @param passwordRaw パスワード
      * @param hasRoleAdmin 管理者ユーザの役割を持つかどうか
+     * @param hasRoleClerk 店員ユーザの役割を持つかどうか
      * @param hasRoleConsumer 消費者ユーザの役割を持つかどうか
      * @return 登録されたユーザ
      * @throws EmailMustBeUniqueException
@@ -47,6 +48,7 @@ interface AccountService {
         email: String,
         passwordRaw: String,
         hasRoleAdmin: Boolean = false,
+        hasRoleClerk: Boolean = false,
         hasRoleConsumer: Boolean = false,
     ): Mono<User>
 

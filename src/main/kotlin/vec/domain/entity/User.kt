@@ -57,6 +57,11 @@ data class User(
     val hasRoleAdmin: Boolean,
 
     /**
+     * 店員ユーザの役割を持つかどうか
+     */
+    val hasRoleClerk: Boolean,
+
+    /**
      * 消費者ユーザの役割を持つかどうか
      */
     val hasRoleConsumer: Boolean,
@@ -85,6 +90,10 @@ data class User(
         return mutableListOf<GrantedAuthority>().apply {
             if (hasRoleAdmin) {
                 add(SimpleGrantedAuthority("ROLE_ADMIN"))
+            }
+
+            if (hasRoleClerk) {
+                add(SimpleGrantedAuthority("ROLE_CLERK"))
             }
 
             if (hasRoleConsumer) {

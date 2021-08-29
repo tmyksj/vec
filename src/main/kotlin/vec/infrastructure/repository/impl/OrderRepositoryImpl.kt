@@ -1,101 +1,172 @@
 package vec.infrastructure.repository.impl
 
 import org.reactivestreams.Publisher
+import org.springframework.data.annotation.CreatedDate
+import org.springframework.data.annotation.Id
+import org.springframework.data.annotation.LastModifiedDate
+import org.springframework.data.annotation.Version
+import org.springframework.data.relational.core.mapping.Table
+import org.springframework.data.repository.reactive.ReactiveCrudRepository
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import vec.domain.entity.Order
 import vec.domain.repository.OrderRepository
-import vec.infrastructure.repository.impl.OrderRepositoryImplProxy.Entity.Companion.proxy
+import java.time.LocalDateTime
 
 @Component
 @Transactional
 class OrderRepositoryImpl(
-    private val orderRepositoryImplProxy: OrderRepositoryImplProxy,
+    private val proxy: OrderRepositoryProxy,
 ) : OrderRepository {
 
     override fun count(): Mono<Long> {
-        return orderRepositoryImplProxy.count()
+        return proxy.count()
     }
 
     override fun delete(entity: Order): Mono<Void> {
-        return orderRepositoryImplProxy.delete(entity.proxy())
+        return proxy.delete(convert(entity))
     }
 
     override fun deleteAll(): Mono<Void> {
-        return orderRepositoryImplProxy.deleteAll()
+        return proxy.deleteAll()
     }
 
     override fun deleteAll(entities: MutableIterable<Order>): Mono<Void> {
-        return orderRepositoryImplProxy.deleteAll(entities.map { it.proxy() })
+        return proxy.deleteAll(entities.map(::convert))
     }
 
     override fun deleteAll(entityStream: Publisher<out Order>): Mono<Void> {
-        return orderRepositoryImplProxy.deleteAll(Flux.from(entityStream).map { it.proxy() })
+        return proxy.deleteAll(Flux.from(entityStream).map(::convert))
     }
 
     override fun deleteAllById(ids: MutableIterable<String>): Mono<Void> {
-        return orderRepositoryImplProxy.deleteAllById(ids)
+        return proxy.deleteAllById(ids)
     }
 
     override fun deleteById(id: Publisher<String>): Mono<Void> {
-        return orderRepositoryImplProxy.deleteById(id)
+        return proxy.deleteById(id)
     }
 
     override fun deleteById(id: String): Mono<Void> {
-        return orderRepositoryImplProxy.deleteById(id)
+        return proxy.deleteById(id)
     }
 
     override fun existsById(id: Publisher<String>): Mono<Boolean> {
-        return orderRepositoryImplProxy.existsById(id)
+        return proxy.existsById(id)
     }
 
     override fun existsById(id: String): Mono<Boolean> {
-        return orderRepositoryImplProxy.existsById(id)
+        return proxy.existsById(id)
     }
 
     override fun findAll(): Flux<Order> {
-        return orderRepositoryImplProxy.findAll().map { it.proxy() }
+        return proxy.findAll().map(::convert)
     }
 
     override fun findAllById(ids: MutableIterable<String>): Flux<Order> {
-        return orderRepositoryImplProxy.findAllById(ids).map { it.proxy() }
+        return proxy.findAllById(ids).map(::convert)
     }
 
     override fun findAllById(idStream: Publisher<String>): Flux<Order> {
-        return orderRepositoryImplProxy.findAllById(idStream).map { it.proxy() }
+        return proxy.findAllById(idStream).map(::convert)
     }
 
     override fun findAllByUserId(userId: String): Flux<Order> {
-        return orderRepositoryImplProxy.findAllByUserId(userId).map { it.proxy() }
+        return proxy.findAllByUserId(userId).map(::convert)
     }
 
     override fun findById(id: String): Mono<Order> {
-        return orderRepositoryImplProxy.findById(id).map { it.proxy() }
+        return proxy.findById(id).map(::convert)
     }
 
     override fun findById(id: Publisher<String>): Mono<Order> {
-        return orderRepositoryImplProxy.findById(id).map { it.proxy() }
+        return proxy.findById(id).map(::convert)
     }
 
     override fun findByIdAndUserId(id: String, userId: String): Mono<Order> {
-        return orderRepositoryImplProxy.findByIdAndUserId(id, userId).map { it.proxy() }
+        return proxy.findByIdAndUserId(id, userId).map(::convert)
     }
 
     override fun <S : Order> save(entity: S): Mono<S> {
         @Suppress("UNCHECKED_CAST")
-        return orderRepositoryImplProxy.save(entity.proxy()).map { it.proxy() as S }
+        return proxy.save(convert(entity)).map { convert(it) as S }
     }
 
     override fun <S : Order> saveAll(entities: MutableIterable<S>): Flux<S> {
         @Suppress("UNCHECKED_CAST")
-        return orderRepositoryImplProxy.saveAll(entities.map { it.proxy() }).map { it.proxy() as S }
+        return proxy.saveAll(entities.map(::convert)).map { convert(it) as S }
     }
 
     override fun <S : Order> saveAll(entityStream: Publisher<S>): Flux<S> {
         @Suppress("UNCHECKED_CAST")
-        return orderRepositoryImplProxy.saveAll(Flux.from(entityStream).map { it.proxy() }).map { it.proxy() as S }
+        return proxy.saveAll(Flux.from(entityStream).map(::convert)).map { convert(it) as S }
     }
+
+    private fun convert(source: Order): Entity {
+        return Entity(
+            id = source.id,
+            userId = source.userId,
+            amount = source.amount,
+            tax = source.tax,
+            total = source.total,
+            orderedDate = source.orderedDate,
+            createdDate = source.createdDate,
+            lastModifiedDate = source.lastModifiedDate,
+            version = source.version,
+        )
+    }
+
+    private fun convert(source: Entity): Order {
+        return Order(
+            id = source.id,
+            userId = source.userId,
+            amount = source.amount,
+            tax = source.tax,
+            total = source.total,
+            orderedDate = source.orderedDate,
+            createdDate = source.createdDate,
+            lastModifiedDate = source.lastModifiedDate,
+            version = source.version,
+        )
+    }
+
+    @Table(value = "`order`")
+    data class Entity(
+
+        @field:Id
+        val id: String,
+
+        val userId: String,
+
+        val amount: Long,
+
+        val tax: Long,
+
+        val total: Long,
+
+        val orderedDate: LocalDateTime,
+
+        @field:CreatedDate
+        val createdDate: LocalDateTime?,
+
+        @field:LastModifiedDate
+        val lastModifiedDate: LocalDateTime?,
+
+        @field:Version
+        val version: Long?,
+
+        )
+
+}
+
+@Component
+@Transactional
+interface OrderRepositoryProxy : ReactiveCrudRepository<OrderRepositoryImpl.Entity, String> {
+
+    fun findAllByUserId(userId: String): Flux<OrderRepositoryImpl.Entity>
+
+    fun findByIdAndUserId(id: String, userId: String): Mono<OrderRepositoryImpl.Entity>
 
 }

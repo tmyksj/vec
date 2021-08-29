@@ -1,4 +1,4 @@
-package vec.infrastructure.repository
+package vec.infrastructure.repository.impl
 
 import org.springframework.data.r2dbc.repository.Query
 import org.springframework.stereotype.Component
@@ -9,7 +9,7 @@ import vec.domain.repository.PrivacyPolicyRepository
 
 @Component
 @Transactional
-interface PrivacyPolicyRepository : PrivacyPolicyRepository {
+interface PrivacyPolicyRepositoryImpl : PrivacyPolicyRepository {
 
     @Query(
         value = """

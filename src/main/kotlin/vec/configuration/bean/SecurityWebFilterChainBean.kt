@@ -23,6 +23,7 @@ class SecurityWebFilterChainBean {
             .pathMatchers("/product/**").permitAll()
             .pathMatchers("/sign-in/**").permitAll()
             .pathMatchers("/sign-up/**").permitAll()
+            .pathMatchers("/store-registration/**").permitAll()
             .pathMatchers("/terms-of-service/**").permitAll()
             .anyExchange().denyAll()
         serverHttpSecurity.formLogin()

@@ -1,0 +1,92 @@
+<main th:class="|mb-40 mt-8 mx-auto w-11/12|"
+      xmlns:th="http://www.thymeleaf.org">
+    <div th:class="|mt-16 mx-auto w-96|">
+        <h2 th:class="|text-xl|"
+            th:text="|店舗登録|"></h2>
+        <form th:action="@{/store-registration}"
+              th:class="|mt-8 mx-auto w-96|"
+              th:method="|post|"
+              th:object="${indexForm}">
+            <h3 th:class="|mt-8|"
+                th:text="|店舗|"></h3>
+            <div th:class="|mt-4|">
+                <label th:class="|block mb-1 text-gray-600 text-sm|"
+                       th:for="|name|"
+                       th:text="|店舗名|"></label>
+                <input th:autofocus="|autofocus|"
+                       th:class="|border border-gray-300 focus:border-yellow-500 focus:outline-none h-9 px-4 rounded w-full|"
+                       th:field="*{name}"
+                       th:type="|text|">
+                <p th:class="|mt-1 text-red-800 text-xs|"
+                   th:errors="*{name}"></p>
+            </div>
+            <div th:class="|mt-4|">
+                <label th:class="|block mb-1 text-gray-600 text-sm|"
+                       th:for="|address|"
+                       th:text="|所在地|"></label>
+                <input th:class="|border border-gray-300 focus:border-yellow-500 focus:outline-none h-9 px-4 rounded w-full|"
+                       th:field="*{address}"
+                       th:type="|text|">
+                <p th:class="|mt-1 text-red-800 text-xs|"
+                   th:errors="*{address}"></p>
+            </div>
+            <h3 th:class="|mt-8|"
+                th:text="|アカウント|"></h3>
+            <div th:class="|mt-4|">
+                <label th:class="|block mb-1 text-gray-600 text-sm|"
+                       th:for="|email|"
+                       th:text="|メールアドレス|"></label>
+                <input th:autocomplete="|email|"
+                       th:class="|border border-gray-300 focus:border-yellow-500 focus:outline-none h-9 px-4 rounded w-full|"
+                       th:field="*{email}"
+                       th:type="|email|">
+                <p th:class="|mt-1 text-red-800 text-xs|"
+                   th:errors="*{email}"></p>
+            </div>
+            <div th:class="|mt-4|">
+                <label th:class="|block mb-1 text-gray-600 text-sm|"
+                       th:for="|password|"
+                       th:text="|パスワード|"></label>
+                <input th:autocomplete="|new-password|"
+                       th:class="|border border-gray-300 focus:border-yellow-500 focus:outline-none h-9 px-4 rounded w-full|"
+                       th:field="*{password}"
+                       th:type="|password|">
+                <p th:class="|mt-1 text-red-800 text-xs|"
+                   th:errors="*{password}"></p>
+            </div>
+            <div th:class="|mt-4|">
+                <label th:class="|block mb-1 text-gray-600 text-sm|"
+                       th:for="|passwordConfirmation|"
+                       th:text="|パスワード（確認）|"></label>
+                <input th:autocomplete="|new-password|"
+                       th:class="|border border-gray-300 focus:border-yellow-500 focus:outline-none h-9 px-4 rounded w-full|"
+                       th:field="*{passwordConfirmation}"
+                       th:type="|password|">
+                <p th:class="|mt-1 text-red-800 text-xs|"
+                   th:errors="*{passwordConfirmation}"></p>
+            </div>
+            <div th:class="|mt-4|">
+                <p th:class="|text-gray-600 text-sm|">
+                    <span th:text="|ユーザ登録することで、|"></span>
+                    <a th:class="|mx-1 text-blue-800|"
+                       th:href="@{/terms-of-service}"
+                       th:rel="|noopener noreferrer|"
+                       th:target="|_blank|"
+                       th:text="|利用規約|"></a>
+                    <span th:text="|と|"></span>
+                    <a th:class="|mx-1 text-blue-800|"
+                       th:href="@{/privacy-policy}"
+                       th:rel="|noopener noreferrer|"
+                       th:target="|_blank|"
+                       th:text="|プライバシーポリシー|"></a>
+                    <span th:text="|に同意したものとみなされます。|"></span>
+                </p>
+            </div>
+            <div th:class="|mt-6 text-right|">
+                <button th:class="|bg-yellow-500 focus:outline-none h-9 px-4 rounded text-gray-50|"
+                        th:text="|店舗登録|"
+                        th:type="|submit|"></button>
+            </div>
+        </form>
+    </div>
+</main>

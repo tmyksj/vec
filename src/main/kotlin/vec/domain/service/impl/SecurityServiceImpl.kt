@@ -21,6 +21,16 @@ class SecurityServiceImpl : SecurityService {
         }
     }
 
+    override fun requireRoleClerk(user: User): Mono<User> {
+        return Mono.fromCallable {
+            if (user.hasRoleClerk) {
+                user
+            } else {
+                throw SecurityException()
+            }
+        }
+    }
+
     override fun requireRoleConsumer(user: User): Mono<User> {
         return Mono.fromCallable {
             if (user.hasRoleConsumer) {
