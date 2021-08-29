@@ -13,12 +13,14 @@ import org.springframework.web.server.ServerWebInputException
 import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.onErrorResume
 import vec.domain.entity.User
+import vec.presentation.component.BindingResultComponent
 import vec.presentation.component.RenderingComponent
 import vec.presentation.form.signUp.IndexForm
 import vec.useCase.command.RegisterUserCommand
 
 @Controller
 class IndexController(
+    private val bindingResultComponent: BindingResultComponent,
     private val renderingComponent: RenderingComponent,
     private val registerUserCommand: RegisterUserCommand,
 ) {
@@ -62,12 +64,6 @@ class IndexController(
         }
 
         return Mono.defer {
-            if (indexForm.password != indexForm.passwordConfirmation) {
-                bindingResult.rejectValue(
-                    "passwordConfirmation", "vec.presentation.form.signUp.IndexForm.passwordConfirmation.mismatch"
-                )
-            }
-
             if (bindingResult.hasErrors()) {
                 throw ServerWebInputException(bindingResult.toString())
             }
@@ -80,7 +76,7 @@ class IndexController(
             )
         }.flatMap {
             renderingComponent.redirect("/sign-in")
-                .redirectAttribute("info", "vec.presentation.controller.signUp.IndexController.post.ok")
+                .redirectAttribute("info", "${this::class.qualifiedName}.post.ok")
                 .status(HttpStatus.SEE_OTHER)
                 .build(serverWebExchange)
         }.onErrorResume(ServerWebInputException::class) {
@@ -90,7 +86,7 @@ class IndexController(
                 .status(HttpStatus.BAD_REQUEST)
                 .build(serverWebExchange)
         }.onErrorResume(RegisterUserCommand.EmailIsAlreadyInUseException::class) {
-            bindingResult.rejectValue("email", "vec.presentation.form.signUp.IndexForm.email.alreadyInUse")
+            bindingResultComponent.rejectValue(bindingResult, "email", "alreadyInUse")
 
             renderingComponent.view("layout/default")
                 .modelAttribute("principal", null)

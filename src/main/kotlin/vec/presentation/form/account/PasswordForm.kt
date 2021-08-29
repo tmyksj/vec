@@ -1,8 +1,10 @@
 package vec.presentation.form.account
 
+import vec.presentation.validation.constraints.PasswordConfirmation
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size
 
+@PasswordConfirmation(value = "newPassword")
 data class PasswordForm(
 
     /**

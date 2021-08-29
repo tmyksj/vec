@@ -13,6 +13,7 @@ import org.springframework.web.server.ServerWebInputException
 import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.onErrorResume
 import vec.domain.entity.User
+import vec.presentation.component.BindingResultComponent
 import vec.presentation.component.RenderingComponent
 import vec.presentation.form.account.PasswordForm
 import vec.useCase.command.ModifyUserPasswordCommand
@@ -20,6 +21,7 @@ import vec.useCase.service.PrincipalService
 
 @Controller
 class PasswordController(
+    private val bindingResultComponent: BindingResultComponent,
     private val renderingComponent: RenderingComponent,
     private val modifyUserPasswordCommand: ModifyUserPasswordCommand,
     private val principalService: PrincipalService,
@@ -48,13 +50,6 @@ class PasswordController(
         bindingResult: BindingResult,
     ): Mono<Rendering> {
         return Mono.defer {
-            if (passwordForm.newPassword != passwordForm.newPasswordConfirmation) {
-                bindingResult.rejectValue(
-                    "newPasswordConfirmation",
-                    "vec.presentation.form.account.PasswordForm.newPasswordConfirmation.mismatch",
-                )
-            }
-
             if (bindingResult.hasErrors()) {
                 throw ServerWebInputException(bindingResult.toString())
             }
@@ -68,7 +63,7 @@ class PasswordController(
             principalService.reload(serverWebExchange)
         }.flatMap {
             renderingComponent.redirect("/account")
-                .redirectAttribute("info", "vec.presentation.controller.account.PasswordController.post.ok")
+                .redirectAttribute("info", "${this::class.qualifiedName}.post.ok")
                 .status(HttpStatus.SEE_OTHER)
                 .build(serverWebExchange)
         }.onErrorResume(ServerWebInputException::class) {
@@ -78,10 +73,7 @@ class PasswordController(
                 .status(HttpStatus.BAD_REQUEST)
                 .build(serverWebExchange)
         }.onErrorResume(ModifyUserPasswordCommand.PasswordMismatchesException::class) {
-            bindingResult.rejectValue(
-                "currentPassword",
-                "vec.presentation.form.account.PasswordForm.currentPassword.mismatch",
-            )
+            bindingResultComponent.rejectValue(bindingResult, "currentPassword", "mismatch")
 
             renderingComponent.view("layout/default")
                 .modelAttribute("principal", principal)
